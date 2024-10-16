@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { TokenService } from './token.service';
+import { TokenPriceHistoryDto } from './dto/tokenPriceHistory.dto';
 
 @Controller('token')
 export class TokenController {
@@ -7,16 +8,13 @@ export class TokenController {
 
     @Get('native-price-history')
     async getNativeTokenPriceHistory(
-        @Query('symbol') symbol: string,
-        @Query('interval') interval: string,
-        @Query('limit') limit: number,
-        @Query('type') type: "dayMonth" | "time"
+        @Query() query: TokenPriceHistoryDto,
     ) {
         const tokenPriceHistory = await this.tokenService.getNativeTokenPriceHistory(
-            symbol,
-            interval,
-            limit,
-            type
+            query.symbol,
+            query.interval,
+            query.limit,
+            query.type
         );
         return { tokenPriceHistory };
     }
