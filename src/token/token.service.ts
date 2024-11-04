@@ -1,10 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { dateFormatter } from 'src/utils/utils';
+import { TOKEN_FACTORY_ADDRESS } from '../../constants';
+import { dateFormatter, getContract } from 'src/utils/utils';
+import { TOKEN_FACTORY_ABI } from 'src/abi/ethereum/token_factory_abi';
+import { CreateTokenDto } from './dto/createToken.dto';
 
 @Injectable()
 export class TokenService {
     private readonly binanceKlinesApiUrl = 'https://api.binance.com/api/v3/klines'
+    private tokenFactoryContract = getContract(
+        TOKEN_FACTORY_ADDRESS,
+        TOKEN_FACTORY_ABI,
+    )       
+
+    async createToken(createTokenDto: CreateTokenDto) {
+        const tokenAddress = await this.tokenFactoryContract.createToken(createTokenDto.name, createTokenDto.symbol);
+        return tokenAddress;
+    }
+
 
     async getNativeTokenPriceHistory(symbol: string, interval: string, limit: number, type: "dayMonth" | "time") {
         // get klines data from binance

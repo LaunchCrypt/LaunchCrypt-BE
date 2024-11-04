@@ -1,7 +1,7 @@
-import { signer, UNISWAP_V3_FACTORY, SEPOLIA_CHAIN_ID, NONFUNGIBLE_POSITION_MANAGER, TOKEN_DECIMALS } from './../../constants';
+import { SIGNER, UNISWAP_V3_FACTORY, SEPOLIA_CHAIN_ID, NONFUNGIBLE_POSITION_MANAGER, TOKEN_DECIMALS } from './../../constants';
 import { Injectable } from '@nestjs/common';
 import { BaseContract, BigNumber, ethers } from 'ethers';
-import { UNISWAP_FACTOR_ABI, UNISWAP_V3_POOL_ABI, ERC20_ABI } from "../../abi";
+import { UNISWAP_FACTOR_ABI, UNISWAP_V3_POOL_ABI, ERC20_ABI } from "../abi/ethereum/uniswap_abi";
 import JSBI from 'jsbi';
 import { Token, Percent } from '@uniswap/sdk-core';
 import { nearestUsableTick, NonfungiblePositionManager, Pool, Position } from '@uniswap/v3-sdk';
@@ -24,7 +24,7 @@ export class UniswapService {
         const token1Amount = ethers.utils.parseUnits(initialToken1Amount, TOKEN_DECIMALS);
 
         let poolAddress = await uniswapFactoryContract.getPool(token0Address, token1Address, fee);
-        const deployer = signer;
+        const deployer = SIGNER;
         if (poolAddress === '0x0000000000000000000000000000000000000000') {
             console.log("Creating pool");
             poolAddress = await this.createPool(uniswapFactoryContract, token0Address, token1Address, fee);

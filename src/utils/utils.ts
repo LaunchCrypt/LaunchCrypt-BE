@@ -1,7 +1,7 @@
 import { encodeSqrtRatioX96 } from '@uniswap/v3-sdk';
 import { BigintIsh } from '@uniswap/sdk-core';
 import { ethers } from 'ethers';
-import { signer } from '../../constants';
+import { SIGNER } from '../../constants';
 
 export class Utils {
   public static encodePriceSqrt(
@@ -12,8 +12,8 @@ export class Utils {
   }
 }
 
-export async function getContract(address: string, abi: any) {
-  const contract = new ethers.Contract(address, abi, signer);
+export function getContract(address: string, abi: any) {
+  const contract = new ethers.Contract(address, abi, SIGNER);
   return contract;
 }
 
