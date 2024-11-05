@@ -14,19 +14,6 @@ export const TOKEN_FACTORY_ABI = [
     },
     {
         "type": "function",
-        "name": "MAX_SUPPLY",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "createToken",
         "inputs": [
             {
@@ -38,6 +25,11 @@ export const TOKEN_FACTORY_ABI = [
                 "name": "ticker",
                 "type": "string",
                 "internalType": "string"
+            },
+            {
+                "name": "maxSupply",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "outputs": [

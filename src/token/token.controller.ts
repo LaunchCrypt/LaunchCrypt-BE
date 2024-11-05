@@ -8,10 +8,10 @@ export class TokenController {
     constructor(private tokenService: TokenService) { }
 
     @Get('native-price-history')
-    getNativeTokenPriceHistory(
+    async getNativeTokenPriceHistory(
         @Query() query: TokenPriceHistoryDto,
     ) {
-        const tokenPriceHistory = this.tokenService.getNativeTokenPriceHistory(
+        const tokenPriceHistory = await this.tokenService.getNativeTokenPriceHistory(
             query.symbol,
             query.interval,
             query.limit,
@@ -22,7 +22,6 @@ export class TokenController {
 
     @Post()
     createToken(@Body() createTokenDto: CreateTokenDto) {
-        const tokenAddress = this.tokenService.createToken(createTokenDto);
-        return { tokenAddress };
+        return this.tokenService.createToken(createTokenDto);
     }
 }

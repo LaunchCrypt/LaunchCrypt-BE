@@ -1,31 +1,6 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-
-export class CreateTokenDto {
-    @IsNotEmpty()
-    name: string;
-
-    @IsNotEmpty()
-    symbol: string;
-
-    @IsNotEmpty()
-    image: File;
-
-    @IsOptional()
-    description: string;
-
-    @IsNotEmpty()
-    fee: number;
-
-    @IsNotEmpty()
-    totalSupply: number;
-
-    @ValidateNested()
-    @IsOptional()
-    @Type(()=> SocialLinkingDto)
-    socialLinks: SocialLinkingDto;
-
-}
+import { BigNumber } from "ethers";
 
 export class SocialLinkingDto {
     @IsOptional()
@@ -42,4 +17,30 @@ export class SocialLinkingDto {
 
     @IsOptional()
     medium: string;
+}
+
+export class CreateTokenDto {
+    @IsNotEmpty()
+    name: string;
+
+    @IsNotEmpty()
+    symbol: string;
+
+    @IsNotEmpty()
+    @IsOptional()
+    image: File;
+
+    @IsOptional()
+    description: string;
+
+    @IsNotEmpty()
+    fee: number;
+
+    @IsNotEmpty() 
+    totalSupply: String; // convert to BigNumber latter
+
+    @ValidateNested()
+    @IsOptional()
+    @Type(()=> SocialLinkingDto)
+    socialLinks: SocialLinkingDto;
 }

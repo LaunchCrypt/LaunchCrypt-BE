@@ -1,7 +1,7 @@
 import { encodeSqrtRatioX96 } from '@uniswap/v3-sdk';
 import { BigintIsh } from '@uniswap/sdk-core';
 import { ethers } from 'ethers';
-import { SIGNER } from '../../constants';
+import { PRIVATE_KEY, SIGNER } from '../../constants';
 
 export class Utils {
   public static encodePriceSqrt(
@@ -12,8 +12,18 @@ export class Utils {
   }
 }
 
-export function getContract(address: string, abi: any) {
-  const contract = new ethers.Contract(address, abi, SIGNER);
+export function getContract(address: string, abi: any, network: string = 'sepolia') {
+  let contract = null;
+  if (network == 'sepolia') {
+    contract = new ethers.Contract(address, abi, SIGNER);
+    return contract;
+  }
+
+  else if (network == 'fuji') {
+    const provider = new ethers.providers.JsonRpcProvider('https://api.avax-test.network/ext/bc/C/rpc');
+    const signer_fuji = new ethers.Wallet(PRIVATE_KEY, provider);
+    contract = new ethers.Contract(address, abi, signer_fuji);
+  }
   return contract;
 }
 

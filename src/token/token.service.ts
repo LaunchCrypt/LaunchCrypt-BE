@@ -4,6 +4,7 @@ import { TOKEN_FACTORY_ADDRESS } from '../../constants';
 import { dateFormatter, getContract } from 'src/utils/utils';
 import { TOKEN_FACTORY_ABI } from 'src/abi/ethereum/token_factory_abi';
 import { CreateTokenDto } from './dto/createToken.dto';
+import { BigNumber } from 'ethers';
 
 @Injectable()
 export class TokenService {
@@ -11,10 +12,33 @@ export class TokenService {
     private tokenFactoryContract = getContract(
         TOKEN_FACTORY_ADDRESS,
         TOKEN_FACTORY_ABI,
-    )       
+        'fuji'
+    )
 
     async createToken(createTokenDto: CreateTokenDto) {
-        const tokenAddress = await this.tokenFactoryContract.createToken(createTokenDto.name, createTokenDto.symbol);
+        const totalSupplyBigNumber = BigNumber.from(createTokenDto.totalSupply);
+        const txResponse = await this.tokenFactoryContract.createToken(
+            createTokenDto.name,
+            createTokenDto.symbol,
+            totalSupplyBigNumber
+        );
+
+        // Wait for the transaction to be mined
+        const txReceipt = await txResponse.wait();
+        
+        // Find the TokenCreated event
+        const tokenCreatedEvent = txReceipt.events.find(
+            (event) => event.event === 'TokenCreated'
+        );
+
+        // Handle the case where the event is not found
+        if (!tokenCreatedEvent) {
+            throw new Error('TokenCreated event not found in transaction receipt');
+        }
+
+        // Extract the token address from event emit
+        const tokenAddress = tokenCreatedEvent.args[0];
+
         return tokenAddress;
     }
 

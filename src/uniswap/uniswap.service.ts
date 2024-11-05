@@ -17,9 +17,9 @@ export class UniswapService {
         initialToken1Amount: string
     ) {
         const price = Utils.encodePriceSqrt(initialToken1Amount, initialToken0Amount);
-        const uniswapFactoryContract = await getContract(UNISWAP_V3_FACTORY, UNISWAP_FACTOR_ABI)
-        const token0 = await getContract(token0Address, ERC20_ABI);
-        const token1 = await getContract(token1Address, ERC20_ABI);
+        const uniswapFactoryContract = getContract(UNISWAP_V3_FACTORY, UNISWAP_FACTOR_ABI)
+        const token0 = getContract(token0Address, ERC20_ABI);
+        const token1 = getContract(token1Address, ERC20_ABI);
         const token0Amount = ethers.utils.parseUnits(initialToken0Amount, TOKEN_DECIMALS);
         const token1Amount = ethers.utils.parseUnits(initialToken1Amount, TOKEN_DECIMALS);
 
