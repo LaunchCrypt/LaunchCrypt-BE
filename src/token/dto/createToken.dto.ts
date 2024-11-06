@@ -37,7 +37,7 @@ export class CreateTokenDto {
     fee: number;
 
     @IsNotEmpty() 
-    totalSupply: String; // convert to BigNumber latter
+    totalSupply: string; // convert to BigNumber latter
 
     @ValidateNested()
     @IsOptional()

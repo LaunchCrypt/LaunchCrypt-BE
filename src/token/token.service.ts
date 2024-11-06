@@ -16,6 +16,7 @@ export class TokenService {
     )
 
     async createToken(createTokenDto: CreateTokenDto) {
+        console.log("createTokenDto", createTokenDto);
         const totalSupplyBigNumber = BigNumber.from(createTokenDto.totalSupply);
         const txResponse = await this.tokenFactoryContract.createToken(
             createTokenDto.name,
