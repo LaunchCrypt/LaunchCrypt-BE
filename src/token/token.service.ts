@@ -5,9 +5,14 @@ import { dateFormatter, getContract } from 'src/utils/utils';
 import { TOKEN_FACTORY_ABI } from 'src/abi/ethereum/token_factory_abi';
 import { CreateTokenDto } from './dto/createToken.dto';
 import { BigNumber } from 'ethers';
+import { InjectModel } from '@nestjs/mongoose';
+import { Token } from './schemas/token.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class TokenService {
+    constructor(@InjectModel(Token.name) private tokenModel: Model<Token>) {
+    }
     private readonly binanceKlinesApiUrl = 'https://api.binance.com/api/v3/klines'
     private tokenFactoryContract = getContract(
         TOKEN_FACTORY_ADDRESS,
@@ -16,7 +21,6 @@ export class TokenService {
     )
 
     async createToken(createTokenDto: CreateTokenDto) {
-        console.log("createTokenDto", createTokenDto);
         const totalSupplyBigNumber = BigNumber.from(createTokenDto.totalSupply);
         const txResponse = await this.tokenFactoryContract.createToken(
             createTokenDto.name,
@@ -26,7 +30,7 @@ export class TokenService {
 
         // Wait for the transaction to be mined
         const txReceipt = await txResponse.wait();
-        
+
         // Find the TokenCreated event
         const tokenCreatedEvent = txReceipt.events.find(
             (event) => event.event === 'TokenCreated'
@@ -39,6 +43,13 @@ export class TokenService {
 
         // Extract the token address from event emit
         const tokenAddress = tokenCreatedEvent.args[0];
+
+        // Create a new token document
+        const token = new this.tokenModel({
+            ...createTokenDto,
+            contractAddress: tokenAddress,
+        });
+        token.save();
 
         return tokenAddress;
     }

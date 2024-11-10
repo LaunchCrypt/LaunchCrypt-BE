@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { TokenPriceHistoryDto } from './dto/tokenPriceHistory.dto';
 import { CreateTokenDto } from './dto/createToken.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('token')
 export class TokenController {
@@ -21,7 +22,15 @@ export class TokenController {
     }
 
     @Post()
-    createToken(@Body() createTokenDto: CreateTokenDto) {
-        return this.tokenService.createToken(createTokenDto);
+    @UseInterceptors(FileInterceptor('image'))
+    createToken(@UploadedFile() image: Express.Multer.File,
+        @Body() body: { data: string }) {
+
+        const tokenData = JSON.parse(body.data);
+        return this.tokenService.createToken({
+            ...tokenData,
+            image
+        });
+
     }
 }

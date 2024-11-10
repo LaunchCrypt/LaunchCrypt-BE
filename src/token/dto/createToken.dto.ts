@@ -1,6 +1,5 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import { BigNumber } from "ethers";
 
 export class SocialLinkingDto {
     @IsOptional()
