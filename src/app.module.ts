@@ -7,6 +7,7 @@ import { TokenModule } from './token/token.module';
 import databaseConfig from './config/database.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
+import { LiquidityPairsModule } from './liquidity-pairs/liquidity-pairs.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     UniswapModule,
     TokenModule,
+    LiquidityPairsModule,
   ],
 
   controllers: [AppController],

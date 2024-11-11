@@ -5,6 +5,7 @@ import { HydratedDocument } from 'mongoose';
 import { SocialLinkingDto } from '../dto/createToken.dto';
 
 // export type MskProblemDocument = HydratedDocument<MskProblem>;
+export type TokenDocument = Token & Document;
 
 @Schema(
     {

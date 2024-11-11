@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { TOKEN_FACTORY_ADDRESS } from '../../constants';
+import { FUJI_CHAIN_ID, TOKEN_FACTORY_ADDRESS } from '../../constants';
 import { dateFormatter, getContract } from 'src/utils/utils';
 import { TOKEN_FACTORY_ABI } from 'src/abi/ethereum/token_factory_abi';
 import { CreateTokenDto } from './dto/createToken.dto';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { InjectModel } from '@nestjs/mongoose';
 import { Token } from './schemas/token.schema';
 import { Model } from 'mongoose';
+import { LiquidityPairsService } from 'src/liquidity-pairs/liquidity-pairs.service';
 
 @Injectable()
 export class TokenService {
-    constructor(@InjectModel(Token.name) private tokenModel: Model<Token>) {
-    }
+    constructor(
+        @InjectModel(Token.name) private tokenModel: Model<Token>,
+        private liquidityPairsService: LiquidityPairsService) {}
     private readonly binanceKlinesApiUrl = 'https://api.binance.com/api/v3/klines'
     private tokenFactoryContract = getContract(
         TOKEN_FACTORY_ADDRESS,
@@ -50,6 +52,16 @@ export class TokenService {
             contractAddress: tokenAddress,
         });
         token.save();
+        // Create a liquidity pair for the new token
+        await this.liquidityPairsService.createLiquidityPair({
+            creator: createTokenDto.creator,
+            comments: 0,
+            tokenA: createTokenDto,
+            tokenAReserve: createTokenDto.totalSupply,
+            tokenBReserve: ethers.utils.parseUnits("3",18).toString(),
+            chainId: FUJI_CHAIN_ID,
+            poolAddress: 'someAddress'
+        });
 
         return tokenAddress;
     }
