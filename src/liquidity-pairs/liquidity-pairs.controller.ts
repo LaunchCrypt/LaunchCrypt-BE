@@ -18,6 +18,12 @@ export class LiquidityPairsController {
         return this.liquidityPairsService.getLiquidityPairByContractAddress(contractAddress);
     }
 
+    // Token A is new token create in the platform
+    @Get()
+    getLiquidityPairByTokenA(@Query('token0') token0: string) {
+        return this.liquidityPairsService.getLiquidityPairByTokenA(token0);
+    }
+
     @Post()
     createLiquidityPair(@Body() createLiquidityPairDto: CreateLiquidityPairDto) {
         return this.liquidityPairsService.createLiquidityPair(createLiquidityPairDto);

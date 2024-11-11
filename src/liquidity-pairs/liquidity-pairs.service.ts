@@ -29,4 +29,12 @@ export class LiquidityPairsService {
         const newLiquidityPair = new this.liquidityPairModel(CreateLiquidityPairDto);
         return await newLiquidityPair.save();
     }
+
+    async getLiquidityPairByTokenA(token0: string): Promise<LiquidityPair> {
+        const liquidityPair = await this.liquidityPairModel.findOne({ token0: token0 }).exec();
+        if(!liquidityPair){
+            throw new NotFoundException('Liquidity Pair not found');
+        }
+        return liquidityPair;
+    }
 }

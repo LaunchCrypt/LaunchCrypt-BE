@@ -21,7 +21,7 @@ export class SocialLinkingDto {
 export class CreateTokenDto {
     @IsNotEmpty()
     creator: string;
-    
+
     @IsNotEmpty()
     name: string;
 
@@ -38,11 +38,14 @@ export class CreateTokenDto {
     @IsNotEmpty()
     fee: number;
 
-    @IsNotEmpty() 
-    totalSupply: string; // convert to BigNumber latter
+    @IsNotEmpty()
+    totalSupply: string; // convert to BigNumber latter\
+
+    @IsNotEmpty()
+    type: string = "ERC20";
 
     @ValidateNested()
     @IsOptional()
-    @Type(()=> SocialLinkingDto)
+    @Type(() => SocialLinkingDto)
     socialLinks: SocialLinkingDto;
 }
