@@ -15,7 +15,7 @@ export class QueryAllDto {
     @IsInt()
     @Min(1)
     @ApiProperty({ required: false, default: 10 })
-    limit?: number = 10;
+    limit?: number = 20;
 
     @IsOptional()
     @IsString()

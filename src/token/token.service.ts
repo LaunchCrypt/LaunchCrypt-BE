@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Token } from './schemas/token.schema';
 import { Model } from 'mongoose';
 import { LiquidityPairsService } from 'src/liquidity-pairs/liquidity-pairs.service';
+import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 
 @Injectable()
 export class TokenService {
@@ -21,6 +22,20 @@ export class TokenService {
         TOKEN_FACTORY_ABI,
         'fuji'
     )
+
+    async getAllTokens(queryAllDto: QueryAllDto) {
+        const { page = 1, limit = 20, sortField, sortOrder = 'asc' } = queryAllDto;
+        const skip = (page - 1) * limit;
+        const sort = sortField ? { [sortField]: sortOrder === 'asc' ? 1 : -1 } as { [key: string]: 1 | -1 } : {};
+
+        return await this.tokenModel.find().skip(skip).limit(limit).sort(sort).exec();
+    }
+
+    async getNativeTokenPriceHistory(symbol: string, interval: string, limit: number, type: "dayMonth" | "time") {
+        // get klines data from binance
+        const klines = await this.getKlines(symbol, interval, limit);
+        return this.processKlinesData(klines, type);
+    }
 
     async createToken(createTokenDto: CreateTokenDto) {
         const totalSupplyBigNumber = BigNumber.from(createTokenDto.totalSupply);
@@ -64,14 +79,6 @@ export class TokenService {
         });
 
         return tokenAddress;
-    }
-
-
-    async getNativeTokenPriceHistory(symbol: string, interval: string, limit: number, type: "dayMonth" | "time") {
-        // get klines data from binance
-        const klines = await this.getKlines(symbol, interval, limit);
-        return this.processKlinesData(klines, type);
-
     }
 
     async getKlines(symbol: string, interval: string, limit: number) {

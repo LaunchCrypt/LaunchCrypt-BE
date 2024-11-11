@@ -3,6 +3,7 @@ import { TokenService } from './token.service';
 import { TokenPriceHistoryDto } from './dto/tokenPriceHistory.dto';
 import { CreateTokenDto } from './dto/createToken.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 
 @Controller('token')
 export class TokenController {
@@ -31,5 +32,10 @@ export class TokenController {
             ...tokenData,
             image
         });
+    }
+
+    @Get()
+    getAllTokens(@Query() queryAllDto: QueryAllDto) {
+        return this.tokenService.getAllTokens(queryAllDto);
     }
 }
