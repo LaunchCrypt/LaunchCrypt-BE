@@ -13,15 +13,15 @@ export class LiquidityPairsController {
         return this.liquidityPairsService.getAllLiquidityPairs(queryAllDto);
     }
 
-    @Get(':contractAddress')
-    getLiquidityPairByContractAddress(@Param('contractAddress') contractAddress: string) {
+    @Get('contract')
+    getLiquidityPairByContractAddress(@Query('contractAddress') contractAddress: string) {
         return this.liquidityPairsService.getLiquidityPairByContractAddress(contractAddress);
     }
 
     // Token A is new token create in the platform
-    @Get()
-    getLiquidityPairByTokenA(@Query('token0') token0: string) {
-        return this.liquidityPairsService.getLiquidityPairByTokenA(token0);
+    @Get('token')
+    getLiquidityPairByToken(@Query('address') tokenA: string) {
+        return this.liquidityPairsService.getLiquidityPairByToken(tokenA);
     }
 
     @Post()

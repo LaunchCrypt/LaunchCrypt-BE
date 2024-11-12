@@ -18,7 +18,7 @@ export class LiquidityPairsService {
     }
 
     async getLiquidityPairByContractAddress(contractAddress: string): Promise<LiquidityPair> {
-        const liquidityPair = await this.liquidityPairModel.findOne({ contractAddress: contractAddress }).exec();
+        const liquidityPair = await this.liquidityPairModel.findOne({ poolAddress: contractAddress }).exec();
         if(!liquidityPair){
             throw new NotFoundException('Liquidity Pair not found');
         }
@@ -30,8 +30,8 @@ export class LiquidityPairsService {
         return await newLiquidityPair.save();
     }
 
-    async getLiquidityPairByTokenA(token0: string): Promise<LiquidityPair> {
-        const liquidityPair = await this.liquidityPairModel.findOne({ token0: token0 }).exec();
+    async getLiquidityPairByToken(tokenA: string): Promise<LiquidityPair> {
+        const liquidityPair = await this.liquidityPairModel.findOne({ 'tokenA.contractAddress': tokenA }).exec();
         if(!liquidityPair){
             throw new NotFoundException('Liquidity Pair not found');
         }

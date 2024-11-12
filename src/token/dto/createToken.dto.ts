@@ -41,7 +41,6 @@ export class CreateTokenDto {
     @IsNotEmpty()
     totalSupply: string; // convert to BigNumber latter\
 
-    @IsNotEmpty()
     type: string = "ERC20";
 
     @ValidateNested()

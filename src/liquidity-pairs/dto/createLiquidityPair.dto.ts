@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { CreateTokenDto } from "../../token/dto/createToken.dto";
+import { Token } from "src/token/schemas/token.schema";
 
 export class CreateLiquidityPairDto {
     @IsNotEmpty()
@@ -11,8 +12,8 @@ export class CreateLiquidityPairDto {
 
     @IsNotEmpty()
     @ValidateNested({ each: true })
-    @Type(() => CreateTokenDto)
-    tokenA: CreateTokenDto;
+    @Type(() => Token)
+    tokenA: Token;
 
     @IsNotEmpty()
     tokenAReserve: string;

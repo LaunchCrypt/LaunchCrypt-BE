@@ -31,7 +31,7 @@ export class Token {
     @Prop()
     image: File
 
-    @Prop({required: true})
+    @Prop({default: "ERC20"})
     type: string = "ERC20"
 
     @Prop()

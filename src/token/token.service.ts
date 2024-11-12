@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import axios from 'axios';
 import { FUJI_CHAIN_ID, TOKEN_FACTORY_ADDRESS } from '../../constants';
 import { dateFormatter, getContract } from 'src/utils/utils';
@@ -53,29 +53,37 @@ export class TokenService {
             (event) => event.event === 'TokenCreated'
         );
 
+        const liquidityPairsCreatedEvent = txReceipt.events.find(
+            (event) => event.event === 'LiquidityPairsCreated'
+        )
+
         // Handle the case where the event is not found
         if (!tokenCreatedEvent) {
-            throw new Error('TokenCreated event not found in transaction receipt');
+            throw new NotFoundException('TokenCreated event not found in transaction receipt');
+        }
+        if (!liquidityPairsCreatedEvent) {
+            throw new NotFoundException('LiquidityPairsCreated event not found in transaction receipt');
         }
 
         // Extract the token address from event emit
         const tokenAddress = tokenCreatedEvent.args[0];
+        const liquidityPairAddress = liquidityPairsCreatedEvent.args[0];
 
         // Create a new token document
         const token = new this.tokenModel({
             ...createTokenDto,
             contractAddress: tokenAddress,
         });
-        token.save();
+        const newToken = await token.save();
         // Create a liquidity pair for the new token
         await this.liquidityPairsService.createLiquidityPair({
             creator: createTokenDto.creator,
             comments: 0,
-            tokenA: createTokenDto,
+            tokenA: newToken,
             tokenAReserve: createTokenDto.totalSupply,
             tokenBReserve: ethers.utils.parseUnits("3",18).toString(),
             chainId: FUJI_CHAIN_ID,
-            poolAddress: 'someAddress'
+            poolAddress: liquidityPairAddress
         });
 
         return tokenAddress;

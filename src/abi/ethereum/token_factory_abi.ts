@@ -61,6 +61,19 @@ export const TOKEN_FACTORY_ABI = [
     },
     {
         "type": "event",
+        "name": "LiquidityPairsCreated",
+        "inputs": [
+            {
+                "name": "liquidityPairsAddress",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "TokenCreated",
         "inputs": [
             {
