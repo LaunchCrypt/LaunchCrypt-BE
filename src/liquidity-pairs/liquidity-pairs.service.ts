@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { LiquidityPair } from './schemas/liquidityPairs.schema';
 import { Model } from 'mongoose';
 import { QueryAllDto } from 'src/common/dto/queryAll.dto';
-import { CreateLiquidityPairDto } from './dto/createLiquidityPair.dto';
+import { CreateLiquidityPairDto, UpdateLiquidityPairDto } from './dto/createLiquidityPair.dto';
 
 @Injectable()
 export class LiquidityPairsService {
@@ -36,5 +36,14 @@ export class LiquidityPairsService {
             throw new NotFoundException('Liquidity Pair not found');
         }
         return liquidityPair;
+    }
+
+    async updateLiquidityPair(contractAddress:string, updateLiquidityPairDto: UpdateLiquidityPairDto): Promise<LiquidityPair> {
+        console.log('updateLiquidityPairDto', updateLiquidityPairDto);
+         const updatedLiquidityPair = await this.liquidityPairModel.findOneAndUpdate({ poolAddress:contractAddress }, updateLiquidityPairDto, { new: true }).exec();
+         if(!updatedLiquidityPair){
+             throw new NotFoundException('Liquidity Pair not found');
+         }
+         return updatedLiquidityPair;
     }
 }

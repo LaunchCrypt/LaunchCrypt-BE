@@ -9,7 +9,7 @@ export const SIGNER = new ethers.Wallet(PRIVATE_KEY, PROVIDER);
 export const TOKEN_DECIMALS = 18;
 
 // FUJI
-export const TOKEN_FACTORY_ADDRESS = "0xDC243Dd848e5208586C7803fD89E90C44F4B7C07"
+export const TOKEN_FACTORY_ADDRESS = "0x303078b83c52Ee1cCa682C54cC6c075267c2256e"
 export const FUJI_CHAIN_ID = 43113;
 
 // Uniswap V3 in sepolia

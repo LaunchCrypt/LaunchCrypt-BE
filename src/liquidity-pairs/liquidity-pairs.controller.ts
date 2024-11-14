@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { LiquidityPairsService } from './liquidity-pairs.service';
 import { ParseObjectIdPipe } from 'src/common/pipes/parse-object-id.pipe';
-import { CreateLiquidityPairDto } from './dto/createLiquidityPair.dto';
+import { CreateLiquidityPairDto, UpdateLiquidityPairDto } from './dto/createLiquidityPair.dto';
 import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 
 @Controller('liquidity-pairs')
@@ -28,4 +28,10 @@ export class LiquidityPairsController {
     createLiquidityPair(@Body() createLiquidityPairDto: CreateLiquidityPairDto) {
         return this.liquidityPairsService.createLiquidityPair(createLiquidityPairDto);
     }
+
+    @Patch(":contract")
+    updateLiquidityPair(@Param('contract') contractAddress: string, @Body() updateLiquidityPairDto: UpdateLiquidityPairDto) {
+        return this.liquidityPairsService.updateLiquidityPair(contractAddress, updateLiquidityPairDto);
+    }
+
 }

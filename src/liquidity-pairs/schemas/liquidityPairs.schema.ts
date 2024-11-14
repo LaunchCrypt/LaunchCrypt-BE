@@ -24,6 +24,7 @@ export class LiquidityPair {
     @Prop({ required: true, default: 0 })
     comments: number //the number of total comments
 
+    // tokenA is new token create in the platform
     @Prop({ required: true, type: TokenSchema })
     tokenA: Token;
 

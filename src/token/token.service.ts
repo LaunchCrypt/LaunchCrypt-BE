@@ -38,7 +38,8 @@ export class TokenService {
     }
 
     async createToken(createTokenDto: CreateTokenDto) {
-        const totalSupplyBigNumber = BigNumber.from(createTokenDto.totalSupply);
+        console.log('createTokenDto', createTokenDto.totalSupply);
+        const totalSupplyBigNumber = ethers.utils.parseEther(createTokenDto.totalSupply);
         const txResponse = await this.tokenFactoryContract.createToken(
             createTokenDto.name,
             createTokenDto.symbol,
@@ -81,7 +82,7 @@ export class TokenService {
             comments: 0,
             tokenA: newToken,
             tokenAReserve: createTokenDto.totalSupply,
-            tokenBReserve: ethers.utils.parseUnits("3",18).toString(),
+            tokenBReserve: "100",
             chainId: FUJI_CHAIN_ID,
             poolAddress: liquidityPairAddress
         });

@@ -27,3 +27,15 @@ export class CreateLiquidityPairDto {
     @IsNotEmpty()
     poolAddress: string;
 }
+
+
+export class UpdateLiquidityPairDto {
+    @IsOptional()
+    comments: number 
+
+    @IsOptional()
+    tokenAReserve: string;
+
+    @IsOptional()
+    tokenBReserve: string;
+}
