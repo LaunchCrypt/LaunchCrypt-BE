@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { LiquidityPairsService } from './liquidity-pairs.service';
-import { ParseObjectIdPipe } from 'src/common/pipes/parse-object-id.pipe';
 import { CreateLiquidityPairDto, UpdateLiquidityPairDto } from './dto/createLiquidityPair.dto';
 import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 

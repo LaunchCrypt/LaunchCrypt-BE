@@ -11,10 +11,9 @@ import { Token, TokenSchema } from 'src/token/schemas/token.schema';
  */
 @Module({
   imports: [MongooseModule.forFeature([{ name: LiquidityPair.name, schema: LiquidityPairSchema },
-          { name: Token.name, schema: TokenSchema },]),
-],  
+  { name: Token.name, schema: TokenSchema },])],
   providers: [LiquidityPairsService],
   controllers: [LiquidityPairsController],
   exports: [LiquidityPairsService]
 })
-export class LiquidityPairsModule {}
+export class LiquidityPairsModule { }

@@ -7,9 +7,9 @@ import { CreateLiquidityPairDto, UpdateLiquidityPairDto } from './dto/createLiqu
 
 @Injectable()
 export class LiquidityPairsService {
-    constructor(@InjectModel(LiquidityPair.name) private liquidityPairModel: Model<LiquidityPair>) {}
+    constructor(@InjectModel(LiquidityPair.name) private liquidityPairModel: Model<LiquidityPair>) { }
 
-    async getAllLiquidityPairs(queryAllDto: QueryAllDto):Promise<LiquidityPair[]>{
+    async getAllLiquidityPairs(queryAllDto: QueryAllDto): Promise<LiquidityPair[]> {
         const { page = 1, limit = 20, sortField, sortOrder = 'asc' } = queryAllDto;
         const skip = (page - 1) * limit;
         const sort = sortField ? { [sortField]: sortOrder === 'asc' ? 1 : -1 } as { [key: string]: 1 | -1 } : {};
@@ -19,7 +19,7 @@ export class LiquidityPairsService {
 
     async getLiquidityPairByContractAddress(contractAddress: string): Promise<LiquidityPair> {
         const liquidityPair = await this.liquidityPairModel.findOne({ poolAddress: contractAddress }).exec();
-        if(!liquidityPair){
+        if (!liquidityPair) {
             throw new NotFoundException('Liquidity Pair not found');
         }
         return liquidityPair;
@@ -32,18 +32,22 @@ export class LiquidityPairsService {
 
     async getLiquidityPairByToken(tokenA: string): Promise<LiquidityPair> {
         const liquidityPair = await this.liquidityPairModel.findOne({ 'tokenA.contractAddress': tokenA }).exec();
-        if(!liquidityPair){
+        if (!liquidityPair) {
             throw new NotFoundException('Liquidity Pair not found');
         }
         return liquidityPair;
     }
 
-    async updateLiquidityPair(contractAddress:string, updateLiquidityPairDto: UpdateLiquidityPairDto): Promise<LiquidityPair> {
+    async updateLiquidityPair(contractAddress: string, updateLiquidityPairDto: UpdateLiquidityPairDto): Promise<LiquidityPair> {
         console.log('updateLiquidityPairDto', updateLiquidityPairDto);
-         const updatedLiquidityPair = await this.liquidityPairModel.findOneAndUpdate({ poolAddress:contractAddress }, updateLiquidityPairDto, { new: true }).exec();
-         if(!updatedLiquidityPair){
-             throw new NotFoundException('Liquidity Pair not found');
-         }
-         return updatedLiquidityPair;
+        const updatedLiquidityPair = await this.liquidityPairModel.findOneAndUpdate(
+            { poolAddress: contractAddress },
+            updateLiquidityPairDto,
+            { new: true })
+            .exec();
+        if (!updatedLiquidityPair) {
+            throw new NotFoundException('Liquidity Pair not found');
+        }
+        return updatedLiquidityPair;
     }
 }
