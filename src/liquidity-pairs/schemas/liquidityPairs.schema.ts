@@ -2,8 +2,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Token, TokenSchema } from 'src/token/schemas/token.schema';
 
-// export type MskProblemDocument = HydratedDocument<MskProblem>;
-
 @Schema(
     {
         timestamps: true,

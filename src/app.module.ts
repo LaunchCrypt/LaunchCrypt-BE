@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { LiquidityPairsModule } from './liquidity-pairs/liquidity-pairs.module';
 import { TradingPairsModule } from './trading-pairs/trading-pairs.module';
+import { CandlestickDataModule } from './candlestick-data/candlestick-data.module';
+import { TradeModule } from './trade/trade.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { TradingPairsModule } from './trading-pairs/trading-pairs.module';
     TokenModule,
     LiquidityPairsModule,
     TradingPairsModule,
+    CandlestickDataModule,
+    TradeModule,
   ],
 
   controllers: [AppController],
