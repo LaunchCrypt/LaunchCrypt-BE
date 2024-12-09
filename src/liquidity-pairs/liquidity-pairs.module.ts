@@ -10,10 +10,14 @@ import { Token, TokenSchema } from 'src/token/schemas/token.schema';
  * We will have another module for imported token
  */
 @Module({
-  imports: [MongooseModule.forFeature([{ name: LiquidityPair.name, schema: LiquidityPairSchema },
-  { name: Token.name, schema: TokenSchema },])],
+  imports: [MongooseModule.forFeature(
+    [
+      { name: LiquidityPair.name, schema: LiquidityPairSchema },
+      { name: Token.name, schema: TokenSchema },
+    ]
+  )],
   providers: [LiquidityPairsService],
   controllers: [LiquidityPairsController],
   exports: [LiquidityPairsService]
 })
-export class LiquidityPairsModule { }
+export class LiquidityPairsModule {}
