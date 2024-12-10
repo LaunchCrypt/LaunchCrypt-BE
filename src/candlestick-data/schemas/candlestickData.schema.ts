@@ -18,7 +18,7 @@ import { LiquidityPair } from 'src/liquidity-pairs/schemas/liquidityPairs.schema
 )
 export class CandlestickData {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: LiquidityPair.name })
-    liquidityPairId: LiquidityPair;
+    liquidityPairId: mongoose.Types.ObjectId;
 
     @Prop()
     timeframe: string;

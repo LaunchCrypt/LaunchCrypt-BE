@@ -1,7 +1,6 @@
-import { BadRequestException, Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { TokenPriceHistoryDto } from './dto/tokenPriceHistory.dto';
-import { CreateTokenDto } from './dto/createToken.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 

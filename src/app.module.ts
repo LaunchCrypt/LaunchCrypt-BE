@@ -12,6 +12,7 @@ import { TradingPairsModule } from './trading-pairs/trading-pairs.module';
 import { CandlestickDataModule } from './candlestick-data/candlestick-data.module';
 import { TradeModule } from './trade/trade.module';
 import { ChatModule } from './chat/chat.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ChatModule } from './chat/chat.module';
     CandlestickDataModule,
     TradeModule,
     ChatModule,
+    UserModule,
   ],
 
   controllers: [AppController],

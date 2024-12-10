@@ -4,7 +4,7 @@ import { FUJI_CHAIN_ID, TOKEN_FACTORY_ADDRESS } from '../../constants';
 import { dateFormatter, getContract } from 'src/utils/utils';
 import { TOKEN_FACTORY_ABI } from 'src/abi/ethereum/token_factory_abi';
 import { CreateTokenDto } from './dto/createToken.dto';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { InjectModel } from '@nestjs/mongoose';
 import { Token } from './schemas/token.schema';
 import { Model } from 'mongoose';

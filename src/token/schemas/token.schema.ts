@@ -1,7 +1,6 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ValidateNested } from 'class-validator';
-import { HydratedDocument } from 'mongoose';
 import { SocialLinkingDto } from '../dto/createToken.dto';
 
 // export type MskProblemDocument = HydratedDocument<MskProblem>;

@@ -20,6 +20,9 @@ export class Trade {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: LiquidityPair.name })
     liquidityPairId: Types.ObjectId
 
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Token' })
+    tokenId: Types.ObjectId
+
     @Prop()
     price: number
 
@@ -32,6 +35,7 @@ export class Trade {
     @Prop()
     side: 'buy' | 'sell'
 
+    // store pubKey only
     @Prop()
     creator: string
 
