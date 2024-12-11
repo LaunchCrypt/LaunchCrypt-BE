@@ -19,6 +19,14 @@ export class UserController {
         return this.userService.getByPubKey(publicKey);
     }
 
+    @Get('token/:publicKey/:chainId')
+    getWalletTokens(
+        @Param('publicKey') publicKey: string,
+        @Param('chainId') chainId: string
+    ): Promise<any> {
+        return this.userService.getWalletTokens(publicKey, chainId);
+    }
+
     @Post()
     createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
         return this.userService.create(createUserDto);

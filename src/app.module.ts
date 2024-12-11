@@ -6,13 +6,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokenModule } from './token/token.module';
 import databaseConfig from './config/database.config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MulterModule } from '@nestjs/platform-express';
 import { LiquidityPairsModule } from './liquidity-pairs/liquidity-pairs.module';
 import { TradingPairsModule } from './trading-pairs/trading-pairs.module';
 import { CandlestickDataModule } from './candlestick-data/candlestick-data.module';
 import { TradeModule } from './trade/trade.module';
 import { ChatModule } from './chat/chat.module';
 import { UserModule } from './user/user.module';
+import { MoralisModule } from './moralis/moralis.module';
 
 @Module({
   imports: [
@@ -41,6 +41,7 @@ import { UserModule } from './user/user.module';
     TradeModule,
     ChatModule,
     UserModule,
+    MoralisModule,
   ],
 
   controllers: [AppController],

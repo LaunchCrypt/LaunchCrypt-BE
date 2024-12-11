@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { TokenPriceHistoryDto } from './dto/tokenPriceHistory.dto';
 import { FileInterceptor } from '@nestjs/platform-express';

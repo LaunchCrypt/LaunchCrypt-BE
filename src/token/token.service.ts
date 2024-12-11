@@ -15,7 +15,7 @@ import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 export class TokenService {
     constructor(
         @InjectModel(Token.name) private tokenModel: Model<Token>,
-        private liquidityPairsService: LiquidityPairsService) {}
+        private liquidityPairsService: LiquidityPairsService) { }
     private readonly binanceKlinesApiUrl = 'https://api.binance.com/api/v3/klines'
     private tokenFactoryContract = getContract(
         TOKEN_FACTORY_ADDRESS,
