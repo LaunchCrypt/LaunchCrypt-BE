@@ -1,10 +1,9 @@
-import { Price } from "@uniswap/sdk-core";
-import { isNotEmpty, IsNotEmpty, IsOptional } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { Token } from "src/token/schemas/token.schema";
 
 export class CreateTradeDto {
     @IsNotEmpty()
-    liquidityPairId: string
+    liquidityPairAddress: string
 
     @IsNotEmpty()
     token: Token
