@@ -1,3 +1,4 @@
+import { TokenService } from './../token/token.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -15,6 +16,7 @@ import { FUJI_RPC_URL } from "../../constants";
 export class UserService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
+        private tokenService: TokenService
     ) { }
 
     async getAll(userQueryDto: QueryAllDto): Promise<User[]> {
@@ -62,30 +64,18 @@ export class UserService {
         console.log('balances', balances);
         for (const balance of balances) {
             try {
-                const contract = new ethers.Contract(
-                    balance.contractAddress,
-                    ERC20_ABI,
-                    new ethers.providers.JsonRpcProvider(FUJI_RPC_URL)
-                );
+                const { name, symbol, image } = await this.tokenService.getTokenByContractAddress(balance.contractAddress);
 
-                // Get all token info in parallel
-                const [name, symbol, decimals] = await Promise.all([
-                    contract.name(),
-                    contract.symbol(),
-                    contract.decimals()
-                ]);
-
-                // Convert hex balance to normal number
                 const normalizedBalance = ethers.utils.formatUnits(
                     balance.tokenBalance,
-                    decimals
+                    18
                 );
 
                 tokensInfo.push({
                     contractAddress: balance.contractAddress,
                     name,
                     symbol,
-                    decimals,
+                    image,
                     balance: normalizedBalance
                 });
             } catch (error) {

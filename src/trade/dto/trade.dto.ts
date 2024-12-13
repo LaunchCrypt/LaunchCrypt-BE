@@ -6,7 +6,7 @@ export class CreateTradeDto {
     liquidityPairAddress: string
 
     @IsNotEmpty()
-    token: Token
+    tokenId: string
 
     @IsOptional()
     price: number

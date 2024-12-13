@@ -31,6 +31,18 @@ export class TokenService {
         return await this.tokenModel.find().skip(skip).limit(limit).sort(sort).exec();
     }
 
+    async getTokenByContractAddress(contractAddress: string) {
+        const token = await this.tokenModel.findOne({
+            contractAddress: { 
+                $regex: new RegExp(`^${contractAddress}$`, 'i') 
+            }
+        })
+        if (!token) {
+            throw new NotFoundException('Token not found');
+        }
+        return token;
+    }
+
     async getNativeTokenPriceHistory(symbol: string, interval: string, limit: number, type: "dayMonth" | "time") {
         // get klines data from binance
         const klines = await this.getKlines(symbol, interval, limit);

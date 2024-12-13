@@ -21,6 +21,11 @@ export class TokenController {
         return { tokenPriceHistory };
     }
 
+    @Get(':contractAddress')
+    getTokenByContractAddress(@Param('contractAddress') contractAddress: string) {
+        return this.tokenService.getTokenByContractAddress(contractAddress);
+    }
+
     @Post()
     @UseInterceptors(FileInterceptor('image'))
     createToken(@UploadedFile() image: Express.Multer.File,

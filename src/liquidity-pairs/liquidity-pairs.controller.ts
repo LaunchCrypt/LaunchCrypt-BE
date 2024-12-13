@@ -32,5 +32,4 @@ export class LiquidityPairsController {
     updateLiquidityPair(@Param('contract') contractAddress: string, @Body() updateLiquidityPairDto: UpdateLiquidityPairDto) {
         return this.liquidityPairsService.updateLiquidityPair(contractAddress, updateLiquidityPairDto);
     }
-
 }

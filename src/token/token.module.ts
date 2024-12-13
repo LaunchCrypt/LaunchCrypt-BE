@@ -14,6 +14,7 @@ import { LiquidityPairsModule } from 'src/liquidity-pairs/liquidity-pairs.module
       { name: Token.name, schema: TokenSchema },
     ]),
     LiquidityPairsModule
-  ]
+  ],
+  exports: [TokenService]
 })
 export class TokenModule { }

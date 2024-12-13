@@ -13,7 +13,6 @@ export type TokenDocument = Token & Document;
             virtuals: true,
             transform: (_, ret) => {
                 delete ret.id;
-                delete ret._id;
                 delete ret.__v;
                 return ret;
             }
