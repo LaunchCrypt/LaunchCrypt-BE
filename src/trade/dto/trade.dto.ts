@@ -1,9 +1,10 @@
+import { LiquidityPair } from 'src/liquidity-pairs/schemas/liquidityPairs.schema';
 import { IsNotEmpty, IsOptional } from "class-validator";
 import { Token } from "src/token/schemas/token.schema";
 
 export class CreateTradeDto {
     @IsNotEmpty()
-    liquidityPairAddress: string
+    LiquidityPairId: string
 
     @IsNotEmpty()
     tokenId: string

@@ -4,10 +4,14 @@ import { Trade } from './schemas/trade.schema';
 import { Model } from 'mongoose';
 import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 import { CreateTradeDto } from './dto/trade.dto';
+import { TradeGateway } from './gateway/trade.gateway';
 
 @Injectable()
 export class TradeService {
-    constructor(@InjectModel(Trade.name) private tradeModel: Model<Trade>) {}
+    constructor(
+        @InjectModel(Trade.name) private tradeModel: Model<Trade>,
+        private tradeGateWay: TradeGateway,
+    ) { }
 
     async getAllTrade(queryAllDto: QueryAllDto) {
         const { page = 1, limit = 20, sortField, sortOrder = 'asc' } = queryAllDto;
@@ -23,6 +27,14 @@ export class TradeService {
 
     async createTrade(createTradeDto: CreateTradeDto) {
         const newTrade = new this.tradeModel(createTradeDto);
-        return await newTrade.save();
+        const savedTrade = await newTrade.save();
+
+        // emit new message for frontend
+        this.tradeGateWay.emitNewTrade(
+            createTradeDto.LiquidityPairId,
+            savedTrade
+        );
+
+        return savedTrade;
     }
 }

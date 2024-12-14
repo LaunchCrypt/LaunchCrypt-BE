@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { Chat } from "../schemas/chat.schemas"
 
 @WebSocketGateway({
+    namespace: '/chat',
     cors: {
         origin: '*',
         transports: ['websocket', 'polling'],
@@ -28,14 +29,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         console.log(`Client disconnected: ${client.id}`);
     }
 
-    @SubscribeMessage('joinRoom')
+    @SubscribeMessage('chat:joinRoom')
     async handleJoinRoom(client: Socket, liquidityPairId: string) {
         console.log("client join room")
         client.join(`pair-${liquidityPairId}`);
 
         // Get last 50 messages for this liquidity pair
         const messages = await this.chatModel.find({ liquidityPair: liquidityPairId })
-            .sort({ loveCount: -1, timestamp: -1 })
+            .sort({ timestamp: -1 })
             .limit(100)
             .populate('children')
             .exec();
@@ -43,7 +44,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         client.emit('previousMessages', messages);
     }
 
-    @SubscribeMessage('leaveRoom')
+    @SubscribeMessage('chat:leaveRoom')
     handleLeaveRoom(client: Socket, liquidityPairId: string) {
         client.leave(`pair-${liquidityPairId}`);
     }
