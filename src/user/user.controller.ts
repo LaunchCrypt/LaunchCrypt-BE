@@ -37,17 +37,9 @@ export class UserController {
     update(
         @UploadedFile() image: Express.Multer.File,
         @Param('publicKey') publicKey: string,
-        @Body() updateUserDto: {
-            publicKey: string
-            name: string
-            bio: string
-            followers: string
-            following: string
-            mentionReceived: number
-            likeReceived: number
-        }
+        @Body() updateUserDto: any
     ): Promise<User> {
-        const userData = JSON.parse(JSON.stringify(updateUserDto));
+        const userData = JSON.parse(updateUserDto.data);
         return this.userService.update(publicKey, {
             ...userData,
             image

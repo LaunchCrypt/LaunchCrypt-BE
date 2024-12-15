@@ -26,25 +26,25 @@ export class TradeGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     @SubscribeMessage('trade:joinRoom')
-    async handleJoinRoom(client: Socket, liquidityPairId: string) {
+    async handleJoinRoom(client: Socket, data: { liquidityPairId: string, tokenId: string }) {
         console.log('client join trade room')
-        client.join(`pair-${liquidityPairId}`);
-
-        const trade = await this.tradeModel.find({ liquidityPair: liquidityPairId })
-        .sort({ createdAt: -1 })
-        .limit(100)
-        .exec();
+        client.join(`pair-${data.liquidityPairId}`);
+        console.log('tokenId', data.tokenId)
+        const trade = await this.tradeModel.find({ tokenId: data.tokenId })
+            .sort({ createdAt: -1 })
+            .limit(100)
+            .exec();
 
         client.emit('previousTrades', trade);
     }
-    
+
     @SubscribeMessage('trade:leaveRoom')
     handleLeaveRoom(client: Socket, liquidityPairId: string) {
         console.log('client leave trade room')
         client.leave(`pair-${liquidityPairId}`);
     }
 
-    emitNewTrade(liquidityPairId: string, trade:Trade) {
+    emitNewTrade(liquidityPairId: string, trade: Trade) {
         this.server.to(`pair-${liquidityPairId}`).emit('newTrade', trade);
     }
 

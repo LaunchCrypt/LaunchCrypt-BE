@@ -23,9 +23,11 @@ export class Trade {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Token' })
     tokenId: Types.ObjectId
 
+    // in native token
     @Prop()
     price: number
 
+    // in ERC20 token
     @Prop()
     amount: number
 

@@ -9,8 +9,6 @@ import { CustomError } from 'src/error/customError';
 import { Alchemy } from 'alchemy-sdk'
 import { alchemyFujiConfig } from 'src/config/alchemy.config';
 import { ethers } from 'ethers';
-import { ERC20_ABI } from 'src/abi/ethereum/uniswap_abi';
-import { FUJI_RPC_URL } from "../../constants";
 
 @Injectable()
 export class UserService {
@@ -51,6 +49,8 @@ export class UserService {
     }
 
     async update(publicKey: string, updateUserDto: UpdateUserDto): Promise<User> {
+        console.log("received public key", publicKey);
+        console.log("received update user dto", updateUserDto);
         return this.userModel.findOneAndUpdate({ publicKey }, updateUserDto, { new: true }).exec();
     }
 

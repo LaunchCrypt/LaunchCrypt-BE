@@ -11,7 +11,8 @@ import { LiquidityPair } from 'src/liquidity-pairs/schemas/liquidityPairs.schema
                 delete ret.__v;
                 return ret;
             }
-        }
+        },
+        toObject: { virtuals: true }
     }
 )
 
@@ -43,6 +44,21 @@ ChatSchema.virtual('children', {
     foreignField: 'parent'
 })
 
+ChatSchema.virtual('creatorInfo', {
+    ref: 'User',  
+    localField: 'creator',  
+    foreignField: 'publicKey',  
+    justOne: true,
+    get: function(user) {
+        return {
+            image: user?.image || null ,
+            name: user.name
+        }  // Return only the image field
+    }
+});
 
+ChatSchema.pre('find', function() {
+    console.log('Finding with creator:', this.getQuery());
+});
 
 

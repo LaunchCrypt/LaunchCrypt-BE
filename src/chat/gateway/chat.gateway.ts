@@ -39,6 +39,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             .sort({ timestamp: -1 })
             .limit(100)
             .populate('children')
+            .populate({
+                path: 'creatorInfo',
+                options: { strictPopulate: false }
+            },
+            )
             .exec();
 
         client.emit('previousMessages', messages);
@@ -68,9 +73,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         await newMessage.save();
 
         // Populate children if this is a parent message
-        const populatedMessage = await newMessage.populate('children');
+        const populatedMessage = await newMessage.populate([
+            {
+                path: 'children'
+            },
+            {
+                path: 'creatorInfo',
+                options: { strictPopulate: false }
+            }
+        ]);
 
-        this.server.to(`pair-${payload.liquidityPairId}`).emit('newMessage', populatedMessage);
+
+
+        this.server.to(`pair-${payload.liquidityPairId}`).emit('newMessage', JSON.parse(JSON.stringify(populatedMessage)));
     }
 
     @SubscribeMessage('loveMessage')
