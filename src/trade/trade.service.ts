@@ -31,7 +31,7 @@ export class TradeService {
 
         // emit new message for frontend
         this.tradeGateWay.emitNewTrade(
-            createTradeDto.LiquidityPairId,
+            createTradeDto.liquidityPairId,
             savedTrade
         );
 

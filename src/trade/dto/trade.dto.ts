@@ -4,7 +4,7 @@ import { Token } from "src/token/schemas/token.schema";
 
 export class CreateTradeDto {
     @IsNotEmpty()
-    LiquidityPairId: string
+    liquidityPairId: string
 
     @IsNotEmpty()
     tokenId: string

@@ -57,8 +57,5 @@ ChatSchema.virtual('creatorInfo', {
     }
 });
 
-ChatSchema.pre('find', function() {
-    console.log('Finding with creator:', this.getQuery());
-});
 
 

@@ -50,7 +50,6 @@ export class TokenService {
     }
 
     async createToken(createTokenDto: CreateTokenDto) {
-        console.log('createTokenDto', createTokenDto.totalSupply);
         const totalSupplyBigNumber = ethers.utils.parseEther(createTokenDto.totalSupply);
         const txResponse = await this.tokenFactoryContract.createToken(
             createTokenDto.name,

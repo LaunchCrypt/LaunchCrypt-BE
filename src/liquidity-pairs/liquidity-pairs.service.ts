@@ -39,7 +39,6 @@ export class LiquidityPairsService {
     }
 
     async updateLiquidityPair(contractAddress: string, updateLiquidityPairDto: UpdateLiquidityPairDto): Promise<LiquidityPair> {
-        console.log('updateLiquidityPairDto', updateLiquidityPairDto);
         const updatedLiquidityPair = await this.liquidityPairModel.findOneAndUpdate(
             { poolAddress: contractAddress },
             updateLiquidityPairDto,

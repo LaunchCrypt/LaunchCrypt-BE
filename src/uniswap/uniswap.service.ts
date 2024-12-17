@@ -26,7 +26,6 @@ export class UniswapService {
         let poolAddress = await uniswapFactoryContract.getPool(token0Address, token1Address, fee);
         const deployer = SIGNER;
         if (poolAddress === '0x0000000000000000000000000000000000000000') {
-            console.log("Creating pool");
             poolAddress = await this.createPool(uniswapFactoryContract, token0Address, token1Address, fee);
 
             await this.initializePool(poolAddress, price, deployer);

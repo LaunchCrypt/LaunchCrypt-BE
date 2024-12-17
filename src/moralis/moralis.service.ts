@@ -19,12 +19,9 @@ export class MoralisService implements OnModuleInit{
                 break;
             default: chain = EvmChain.AVALANCHE_TESTNET;
         }
-        console.log('chain', chain);
         const response = await Moralis.EvmApi.token.getWalletTokenBalances({
             address,
             chain,
         });
-
-        console.log('response', response);
     }
 }

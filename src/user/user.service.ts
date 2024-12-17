@@ -49,8 +49,6 @@ export class UserService {
     }
 
     async update(publicKey: string, updateUserDto: UpdateUserDto): Promise<User> {
-        console.log("received public key", publicKey);
-        console.log("received update user dto", updateUserDto);
         return this.userModel.findOneAndUpdate({ publicKey }, updateUserDto, { new: true }).exec();
     }
 
@@ -61,7 +59,6 @@ export class UserService {
 
     private async formatBalanceToTokenInfo(balances: any[]) {
         const tokensInfo = [];
-        console.log('balances', balances);
         for (const balance of balances) {
             try {
                 const { name, symbol, image } = await this.tokenService.getTokenByContractAddress(balance.contractAddress);
