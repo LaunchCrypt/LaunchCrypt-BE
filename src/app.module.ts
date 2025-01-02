@@ -13,9 +13,11 @@ import { TradeModule } from './trade/trade.module';
 import { ChatModule } from './chat/chat.module';
 import { UserModule } from './user/user.module';
 import { MoralisModule } from './moralis/moralis.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(), // This enables cron jobs
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig]

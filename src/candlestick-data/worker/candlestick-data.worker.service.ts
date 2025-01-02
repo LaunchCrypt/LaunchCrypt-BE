@@ -7,8 +7,8 @@ import { LiquidityPair } from "src/liquidity-pairs/schemas/liquidityPairs.schema
 import { Trade } from "src/trade/schemas/trade.schema";
 
 @Injectable()
-export class CanddlestickWorkerService {
-    private readonly logger = new Logger(CanddlestickWorkerService.name);
+export class CandlestickWorkerService {
+    private readonly logger = new Logger(CandlestickWorkerService.name);
 
     constructor(
         @InjectModel(CandlestickData.name) private candlestickDataModel: Model<CandlestickData>,
@@ -18,7 +18,7 @@ export class CanddlestickWorkerService {
     }
 
     private readonly timeframes = {
-        "3m": 60,
+        "3m": 180,
         "15m": 900,
         "1h": 3600,
         "4h": 14400,
@@ -31,7 +31,7 @@ export class CanddlestickWorkerService {
         this.logger.log('Generate 3 minutes candlestick data');
         try {
             const pairs = await this.liquidityPairModel.find().exec();
-            for (const pair in pairs) {
+            for (const pair of pairs) {
                 await this.generateCandlestickData((pair as any)._id, '3m');
             }
         } catch (error) {
@@ -39,10 +39,19 @@ export class CanddlestickWorkerService {
         }
     }
 
+    @Cron('45 * * * * *')
+    handleCron() {
+      this.logger.debug('Called when the current second is 45');
+    }
+
     private async generateCandlestickData(
         liquidityPairId: Types.ObjectId,
         timeframe: string
     ) {
+        const lastCandlestick = await this.candlestickDataModel.findOne({
+            liquidityPairId,
+            timeframe
+        }).sort({ time: -1 }).exec();
         const timeframeSeconds = this.timeframes[timeframe];
         const now = Date.now();
         const currentPeriodStart = Math.floor(now / 1000 / timeframeSeconds) * timeframeSeconds;
@@ -60,10 +69,10 @@ export class CanddlestickWorkerService {
             {
                 $group: {
                     _id: null,
-                    openPrice: { $first: '$price' },
-                    highPrice: { $max: '$price' },
-                    lowPrice: { $min: '$price' },
-                    closePrice: { $last: '$price' },
+                    openPrice: { $first: { $divide: ['$price', '$amount'] } },
+                    highPrice: { $max: { $divide: ['$price', '$amount'] } },
+                    lowPrice: { $min: { $divide: ['$price', '$amount'] } },
+                    closePrice: { $last: { $divide: ['$price', '$amount'] } },
                     volume: { $sum: '$amount' }
                 }
             }
@@ -72,25 +81,34 @@ export class CanddlestickWorkerService {
 
         if (candlestickData.length === 0) {
             // If no trades, check last candlestick
-            const lastCandlestick = await this.candlestickDataModel.findOne({
-                liquidityPairId,
-                timeframe
-            }).sort({ time: -1 }).exec();
-
             if (lastCandlestick) {
                 const newCandlestick = new this.candlestickDataModel({
                     liquidityPairId,
                     timeframe,
-                    time: currentPeriodStart,
-                    openPrice: lastCandlestick.openPrice,
-                    highPrice: lastCandlestick.highPrice,
-                    lowPrice: lastCandlestick.lowPrice,
+                    time: currentPeriodStart * 1000,
+                    openPrice: lastCandlestick.closePrice,
+                    highPrice: lastCandlestick.closePrice,
+                    lowPrice: lastCandlestick.closePrice,
                     closePrice: lastCandlestick.closePrice,
                     volume: 0,
                 });
                 await newCandlestick.save();
             }
             return;
+        }
+        else{
+
+            const newCandlestick = new this.candlestickDataModel({
+                liquidityPairId,
+                timeframe,
+                time: currentPeriodStart * 1000,
+                openPrice: candlestickData[0].openPrice,
+                highPrice: candlestickData[0].highPrice,
+                lowPrice: candlestickData[0].lowPrice,
+                closePrice: candlestickData[0].closePrice,
+                volume: candlestickData[0].volume,
+            });
+            await newCandlestick.save();
         }
     }
 }
