@@ -30,7 +30,7 @@ export class CreateTokenDto {
 
     @IsNotEmpty()
     @IsOptional()
-    image: File;
+    image: any
 
     @IsOptional()
     description: string;

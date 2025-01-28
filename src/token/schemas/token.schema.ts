@@ -26,8 +26,8 @@ export class Token {
     @Prop({required: true})
     symbol: string
 
-    @Prop()
-    image: File
+    @Prop({ type: Object })
+    image: Express.Multer.File
 
     @Prop({default: "ERC20"})
     type: string = "ERC20"

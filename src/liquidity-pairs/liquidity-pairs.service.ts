@@ -10,11 +10,13 @@ export class LiquidityPairsService {
     constructor(@InjectModel(LiquidityPair.name) private liquidityPairModel: Model<LiquidityPair>) { }
 
     async getAllLiquidityPairs(queryAllDto: QueryAllDto): Promise<LiquidityPair[]> {
-        const { page = 1, limit = 20, sortField, sortOrder = 'asc' } = queryAllDto;
+        const { page = 1, limit = 20, sortField, sortOrder = 'asc', keyword } = queryAllDto;
+        console.log(queryAllDto);
         const skip = (page - 1) * limit;
         const sort = sortField ? { [sortField]: sortOrder === 'asc' ? 1 : -1 } as { [key: string]: 1 | -1 } : {};
+        const filter = keyword ? { 'tokenA.symbol': { $regex: keyword, $options: 'i' } } : {};
 
-        return await this.liquidityPairModel.find().skip(skip).limit(limit).sort(sort).exec();
+        return await this.liquidityPairModel.find(filter).skip(skip).limit(limit).sort(sort).exec();
     }
 
     async getLiquidityPairByContractAddress(contractAddress: string): Promise<LiquidityPair> {

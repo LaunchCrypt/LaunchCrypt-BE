@@ -28,8 +28,8 @@ export class User {
     @Prop()
     bio: string
 
-    @Prop()
-    image: File
+    @Prop({ type: Object })
+    image: Express.Multer.File
 
     @Prop({type: [mongoose.Schema.Types.ObjectId], ref: User.name, default: []})
     followers: mongoose.Types.ObjectId[]

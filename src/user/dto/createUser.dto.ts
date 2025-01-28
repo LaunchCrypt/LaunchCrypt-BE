@@ -11,7 +11,7 @@ export class CreateUserDto {
     bio: string
 
     @IsOptional()
-    image: File
+    image: Express.Multer.File
 
     @IsOptional()
     followers: string[]

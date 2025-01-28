@@ -26,4 +26,9 @@ export class QueryAllDto {
     @IsIn(['asc', 'desc'])
     @ApiProperty({ required: false, enum: ['asc', 'desc'], default: 'asc' })
     sortOrder?: 'asc' | 'desc' = 'asc';
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false, default: ''})
+    keyword?: string = '';
 }
