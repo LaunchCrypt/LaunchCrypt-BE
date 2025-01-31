@@ -54,7 +54,8 @@ export class TokenService {
         const txResponse = await this.tokenFactoryContract.createToken(
             createTokenDto.name,
             createTokenDto.symbol,
-            totalSupplyBigNumber
+            totalSupplyBigNumber,
+            createTokenDto.fee,
         );
 
         // Wait for the transaction to be mined
@@ -95,7 +96,8 @@ export class TokenService {
             tokenAReserve: createTokenDto.totalSupply,
             tokenBReserve: "100",
             chainId: FUJI_CHAIN_ID,
-            poolAddress: liquidityPairAddress
+            poolAddress: liquidityPairAddress,
+            poolFee: createTokenDto.fee,
         });
 
         return tokenAddress;

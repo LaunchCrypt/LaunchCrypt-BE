@@ -5,6 +5,7 @@ import { Model, Types } from "mongoose";
 import { CandlestickData } from "../schemas/candlestickData.schema";
 import { LiquidityPair } from "src/liquidity-pairs/schemas/liquidityPairs.schema";
 import { Trade } from "src/trade/schemas/trade.schema";
+import { DEFAULT_PRICE } from "../../../constants";
 
 @Injectable()
 export class CandlestickWorkerService {
@@ -41,7 +42,7 @@ export class CandlestickWorkerService {
 
     @Cron('45 * * * * *')
     handleCron() {
-      this.logger.debug('Called when the current second is 45');
+        this.logger.debug('Called when the current second is 45');
     }
 
     private async generateCandlestickData(
@@ -94,9 +95,26 @@ export class CandlestickWorkerService {
                 });
                 await newCandlestick.save();
             }
+
+            // no last candleStick mean no trades at all
+            else {
+                // the price is VirtualLiquidity / Initial supply
+
+                const newCandlestick = new this.candlestickDataModel({
+                    liquidityPairId,
+                    timeframe,
+                    time: currentPeriodStart * 1000,
+                    openPrice: DEFAULT_PRICE,
+                    highPrice: DEFAULT_PRICE,
+                    lowPrice: DEFAULT_PRICE,
+                    closePrice: DEFAULT_PRICE,
+                    volume: 0,
+                })
+                await newCandlestick.save();
+            }
             return;
         }
-        else{
+        else {
 
             const newCandlestick = new this.candlestickDataModel({
                 liquidityPairId,
@@ -108,6 +126,7 @@ export class CandlestickWorkerService {
                 closePrice: candlestickData[0].closePrice,
                 volume: candlestickData[0].volume,
             });
+            this.logger.debug('New candlestick', newCandlestick);
             await newCandlestick.save();
         }
     }

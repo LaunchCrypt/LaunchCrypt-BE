@@ -36,6 +36,9 @@ export class LiquidityPair {
 
     @Prop({ required: true })
     poolAddress: string;
+
+    @Prop({ required: true, default: 3 }) // 0.3%
+    poolFee: number;
 }
 
 export const LiquidityPairSchema = SchemaFactory.createForClass(LiquidityPair);

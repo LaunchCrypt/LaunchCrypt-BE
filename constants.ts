@@ -9,9 +9,12 @@ export const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 export const PROVIDER = new ethers.providers.JsonRpcProvider(SEPOLIA_RPC_URL);
 export const SIGNER = new ethers.Wallet(PRIVATE_KEY, PROVIDER);
 export const TOKEN_DECIMALS = 18;
+export const VIRTUAL_LIQUIDITY = 100 // 100 AVAX
+export const MAX_SUPPLY = 1000000000 // 1 billion 
+export const DEFAULT_PRICE = VIRTUAL_LIQUIDITY / MAX_SUPPLY;
 
 // FUJI
-export const TOKEN_FACTORY_ADDRESS = "0x303078b83c52Ee1cCa682C54cC6c075267c2256e"
+export const TOKEN_FACTORY_ADDRESS = "0x20F4E1b0F46094A1e2ffBD10eb0f104DdE3De139"
 export const FUJI_CHAIN_ID = 43113;
 export const FUJI_RPC_URL = "https://avalanche-fuji-c-chain-rpc.publicnode.com";
 

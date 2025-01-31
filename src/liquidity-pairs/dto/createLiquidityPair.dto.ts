@@ -25,6 +25,9 @@ export class CreateLiquidityPairDto {
 
     @IsNotEmpty()
     poolAddress: string;
+
+    @IsNotEmpty()
+    poolFee: number;
 }
 
 
