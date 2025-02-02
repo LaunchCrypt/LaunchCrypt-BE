@@ -14,6 +14,8 @@ import { ChatModule } from './chat/chat.module';
 import { UserModule } from './user/user.module';
 import { MoralisModule } from './moralis/moralis.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { StakeModule } from './stake/stake.module';
+
 
 @Module({
   imports: [
@@ -44,6 +46,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ChatModule,
     UserModule,
     MoralisModule,
+    StakeModule,
   ],
 
   controllers: [AppController],
