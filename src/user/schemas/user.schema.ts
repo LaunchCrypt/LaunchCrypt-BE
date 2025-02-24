@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ValidateNested } from 'class-validator';
 import mongoose from 'mongoose';
+import { Token } from 'src/token/schemas/token.schema';
 
 
 export type UserDocument = User & Document;
@@ -36,6 +37,9 @@ export class User {
 
     @Prop({type: [mongoose.Schema.Types.ObjectId], ref: User.name, default: []})
     following: mongoose.Types.ObjectId[]
+
+    @Prop({type: [mongoose.Schema.Types.ObjectId], ref: Token.name, default: [] })
+    tokenFollow: mongoose.Types.ObjectId[]
 
     @Prop({default: 0})
     mentionReceived: number

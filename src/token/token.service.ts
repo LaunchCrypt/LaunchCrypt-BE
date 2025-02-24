@@ -33,12 +33,12 @@ export class TokenService {
 
     async getTokenByContractAddress(contractAddress: string) {
         const token = await this.tokenModel.findOne({
-            contractAddress: { 
-                $regex: new RegExp(`^${contractAddress}$`, 'i') 
+            contractAddress: {
+                $regex: new RegExp(`^${contractAddress}$`, 'i')
             }
         })
         if (!token) {
-            throw new NotFoundException('Token not found');
+            return { name: "", symbol: "", image: "" }
         }
         return token;
     }
