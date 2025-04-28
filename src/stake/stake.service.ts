@@ -26,4 +26,15 @@ export class StakeService {
     async deleteStakeByStakerAddress(staker: string): Promise<Stake> {
         return await this.stakeModel.findOneAndDelete({ staker }).exec();
     }
+
+    async getTotalLockValue() {
+        return await this.stakeModel.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalLockValue: { $sum: '$amount' }
+                }
+            }
+        ]).exec();
+    }   
 }

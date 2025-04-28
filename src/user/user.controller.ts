@@ -27,6 +27,11 @@ export class UserController {
         return this.userService.getWalletTokens(publicKey, chainId);
     }
 
+    @Get('tableData')
+    getUserTableData(): Promise<any[]> {
+        return this.userService.getUserTableData();
+    }
+
     @Post()
     createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
         return this.userService.create(createUserDto);

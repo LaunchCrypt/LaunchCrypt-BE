@@ -82,4 +82,32 @@ export class UserService {
 
         return tokensInfo;
     }
+
+    async getTotalUser() {
+        return await this.userModel.countDocuments().exec();
+    }
+
+    async updateTotalTradeAndTotalTradeVolume(address: string, price: number, lastTrade: Date) {
+        const user = await this.userModel.findOne({ publicKey: address }).exec();
+        if (!user) {
+            throw new CustomError('User not found', 404, "User not found");
+        }
+        user.totalTrade += 1;
+        user.totalTradeVolume += Number(price);
+        user.lastTrade = lastTrade;
+        await user.save();
+    }
+
+
+    async getUserTableData() {
+        const users = await this.userModel.find().exec();
+        // calculate last trade by getting last trade of each user
+        return users.map(user => ({
+            name: user.name,
+            totalTrade: user.totalTrade,
+            totalTradeVolume: user.totalTradeVolume,
+            avgTradeSize: user.totalTradeVolume / user.totalTrade,
+            lastTrade: user.lastTrade
+        }));
+    }
 }

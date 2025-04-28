@@ -46,6 +46,15 @@ export class User {
 
     @Prop({default: 0})
     likeReceived: number
+
+    @Prop({default: 0})
+    totalTrade: number
+
+    @Prop({default: 0})
+    totalTradeVolume: number
+
+    @Prop()
+    lastTrade: Date
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);   

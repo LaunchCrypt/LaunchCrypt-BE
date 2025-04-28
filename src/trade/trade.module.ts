@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TradeService } from './trade.service';
 import { TradeController } from './trade.controller';
-import { Mongoose } from 'mongoose';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Trade, TradeSchema } from './schemas/trade.schema';
 import { TradeGateway } from './gateway/trade.gateway';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [MongooseModule.forFeature(
@@ -14,8 +14,9 @@ import { TradeGateway } from './gateway/trade.gateway';
         schema: TradeSchema
       }
     ]
-  )],
+  ), UserModule],
   providers: [TradeService, TradeGateway],
-  controllers: [TradeController]
+  controllers: [TradeController],
+  exports: [TradeService],
 })
 export class TradeModule { }

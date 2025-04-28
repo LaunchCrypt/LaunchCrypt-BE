@@ -12,6 +12,7 @@ import { Stake, StakeSchema } from './schemas/stake.schema';
     MongooseModule.forFeature([
       { name: Stake.name, schema: StakeSchema },
     ])
-  ]
+  ],
+  exports: [StakeService],
 })
 export class StakeModule {}

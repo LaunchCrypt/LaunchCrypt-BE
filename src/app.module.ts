@@ -15,6 +15,7 @@ import { UserModule } from './user/user.module';
 import { MoralisModule } from './moralis/moralis.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { StakeModule } from './stake/stake.module';
+import { StatsModule } from './stats/stats.module';
 
 
 @Module({
@@ -47,6 +48,7 @@ import { StakeModule } from './stake/stake.module';
     UserModule,
     MoralisModule,
     StakeModule,
+    StatsModule,
   ],
 
   controllers: [AppController],
