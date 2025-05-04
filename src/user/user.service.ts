@@ -54,6 +54,10 @@ export class UserService {
 
     async create(createUserDto: UpdateUserDto): Promise<User> {
         const createdUser = new this.userModel(createUserDto);
+        if(!createdUser.name){
+            const count = await this.userModel.countDocuments();
+            createdUser.name = `user${count + 1}`;
+        }
         return createdUser.save();
     }
 
@@ -100,10 +104,13 @@ export class UserService {
 
 
     async getUserTableData() {
+        console.log("hello")
         const users = await this.userModel.find().exec();
+        console.log("user", users)
         // calculate last trade by getting last trade of each user
         return users.map(user => ({
             name: user.name,
+            address: user.publicKey,
             totalTrade: user.totalTrade,
             totalTradeVolume: user.totalTradeVolume,
             avgTradeSize: user.totalTradeVolume / user.totalTrade,

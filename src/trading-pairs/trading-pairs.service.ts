@@ -4,10 +4,17 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TradingPair } from './schemas/tradingPairs.schema';
 import { Model } from 'mongoose';
 import { CreateTradingPairDto, UpdateTradingPairDto } from './dto/createTradingPair.dto';
+import { ethers } from 'ethers';
+import { erc20Abi } from 'src/abi/ethereum/erc20ABI';
+import { FUJI_PROVIDER } from '../../constants';
+import { TokenService } from 'src/token/token.service';
 
 @Injectable()
 export class TradingPairsService {
-    constructor(@InjectModel(TradingPair.name) private tradingPairModel: Model<TradingPair>) { }
+    constructor(
+        @InjectModel(TradingPair.name) private tradingPairModel: Model<TradingPair>,
+        private tokenService: TokenService
+    ) { }
 
     async getAllTradingPairs(queryAllDto: QueryAllDto): Promise<TradingPair[]> {
         const { page = 1, limit = 20, sortField, sortOrder = 'asc' } = queryAllDto;
@@ -52,6 +59,17 @@ export class TradingPairsService {
     }
 
     async createTradingPair(createTradingPairDto: CreateTradingPairDto): Promise<TradingPair> {
+        const { tokenA, tokenB } = createTradingPairDto;
+        const {name: tokenAName, symbol: tokenASymbol} = await this.getOnchainTokenData(tokenA);
+        const {name: tokenBName, symbol: tokenBSymbol} = await this.getOnchainTokenData(tokenB);
+
+        // await this.tokenService.createToken({
+        //     name: tokenAName,
+        //     symbol: tokenASymbol,
+        //     contractAddress: tokenA,
+        //     chainId: createTradingPairDto.chainId
+        // });
+
         const createdTradingPair = new this.tradingPairModel(createTradingPairDto);
         return createdTradingPair.save();
     }
@@ -66,5 +84,12 @@ export class TradingPairsService {
             throw new NotFoundException('Liquidity Pair not found');
         }
         return updatedTradingPair;
+    }
+
+    async getOnchainTokenData(contractAddress: string) {
+        const tokenContract = new ethers.Contract(contractAddress, erc20Abi, FUJI_PROVIDER);
+        const name = await tokenContract.name();
+        const symbol = await tokenContract.symbol();
+        return { name, symbol };
     }
 }

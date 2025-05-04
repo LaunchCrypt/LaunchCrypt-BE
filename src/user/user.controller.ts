@@ -14,6 +14,11 @@ export class UserController {
         return this.userService.getAll(userQueryDto);
     }
 
+    @Get('/tableData')
+    getUserTableData(): Promise<any[]> {
+        return this.userService.getUserTableData();
+    }
+
     @Get(':publicKey')
     getByPubKey(@Param('publicKey') publicKey: string): Promise<User> {
         return this.userService.getByPubKey(publicKey);
@@ -25,11 +30,6 @@ export class UserController {
         @Param('chainId') chainId: string
     ): Promise<any> {
         return this.userService.getWalletTokens(publicKey, chainId);
-    }
-
-    @Get('tableData')
-    getUserTableData(): Promise<any[]> {
-        return this.userService.getUserTableData();
     }
 
     @Post()

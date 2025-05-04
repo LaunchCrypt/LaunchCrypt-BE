@@ -1,4 +1,3 @@
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Token, TokenSchema } from 'src/token/schemas/token.schema';
 

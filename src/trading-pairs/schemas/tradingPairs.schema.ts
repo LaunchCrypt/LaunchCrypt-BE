@@ -21,9 +21,6 @@ export class TradingPair {
     @Prop({ required: true })
     creator: string;
 
-    @Prop({ required: true, default: 0 })
-    comments: number //the number of total comments
-
     // tokenA is new token create in the platform
     @Prop({ required: true, type: TokenSchema })
     tokenA: Token;
@@ -44,7 +41,7 @@ export class TradingPair {
     poolAddress: string;
 
     @Prop({ required: true })
-    TVL: string
+    totalLP: string;
 }
 
 export const TradingPairSchema = SchemaFactory.createForClass(TradingPair);

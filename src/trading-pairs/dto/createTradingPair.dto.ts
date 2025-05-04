@@ -7,18 +7,11 @@ export class CreateTradingPairDto {
     @IsNotEmpty()
     creator: string;
 
-    @IsOptional()
-    comments: number = 0 //the number of total comments
+    @IsNotEmpty()
+    tokenA: string;
 
     @IsNotEmpty()
-    @ValidateNested({ each: true })
-    @Type(() => Token)
-    tokenA: Token;
-
-    @IsNotEmpty()
-    @ValidateNested({ each: true }) 
-    @Type(() => Token)  
-    tokenB: Token;
+    tokenB: string;
 
     @IsNotEmpty()
     tokenAReserve: string;
@@ -33,7 +26,7 @@ export class CreateTradingPairDto {
     poolAddress: string;
 
     @IsNotEmpty()
-    TVL: string
+    totalLP: string;
 }
 
 

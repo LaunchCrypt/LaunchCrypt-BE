@@ -17,6 +17,7 @@ export const DEFAULT_PRICE = VIRTUAL_LIQUIDITY / MAX_SUPPLY;
 export const TOKEN_FACTORY_ADDRESS = "0x20F4E1b0F46094A1e2ffBD10eb0f104DdE3De139"
 export const FUJI_CHAIN_ID = 43113;
 export const FUJI_RPC_URL = "https://avalanche-fuji-c-chain-rpc.publicnode.com";
+export const FUJI_PROVIDER = new ethers.providers.JsonRpcProvider(FUJI_RPC_URL);
 
 // Uniswap V3 in sepolia
 export const NONFUNGIBLE_POSITION_MANAGER = '0x1238536071E1c677A632429e3655c799b22cDA52';

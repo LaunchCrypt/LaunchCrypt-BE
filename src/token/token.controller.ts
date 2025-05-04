@@ -22,7 +22,7 @@ export class TokenController {
     }
 
     @Get(':contractAddress')
-    getTokenByContractAddress(@Param('contractAddress') contractAddress: string) {
+    getTokenByContractAddress(@Query('contractAddress') contractAddress: string) {
         return this.tokenService.getTokenByContractAddress(contractAddress);
     }
 

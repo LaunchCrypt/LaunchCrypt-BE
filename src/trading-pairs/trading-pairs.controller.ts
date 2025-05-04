@@ -2,10 +2,12 @@ import { QueryAllDto } from 'src/common/dto/queryAll.dto';
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { TradingPairsService } from './trading-pairs.service';
 import { CreateTradingPairDto, UpdateTradingPairDto } from './dto/createTradingPair.dto';
+import { TokenService } from 'src/token/token.service';
 
 @Controller('trading-pairs')
 export class TradingPairsController {
-    constructor(private tradingPairService: TradingPairsService ) {}
+    constructor(private tradingPairService: TradingPairsService
+     ) {}
 
     @Get()
     getAllTradingPairs(queryAllDto: QueryAllDto) {

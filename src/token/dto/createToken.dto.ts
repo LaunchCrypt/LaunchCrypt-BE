@@ -20,6 +20,7 @@ export class SocialLinkingDto {
 
 export class CreateTokenDto {
     @IsNotEmpty()
+    @IsOptional()
     creator: string;
 
     @IsNotEmpty()

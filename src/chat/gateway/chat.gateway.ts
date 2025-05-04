@@ -3,6 +3,7 @@ import { Server, Socket } from 'socket.io';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Chat } from "../schemas/chat.schemas"
+import { LiquidityPair } from 'src/liquidity-pairs/schemas/liquidityPairs.schema';
 
 @WebSocketGateway({
     namespace: '/chat',
@@ -17,6 +18,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     constructor(
         @InjectModel(Chat.name) private chatModel: Model<Chat>,
+        @InjectModel(LiquidityPair.name) private liquidityPairModel: Model<LiquidityPair>,
     ) { }
 
     async handleConnection(client: Socket) {
@@ -71,6 +73,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         });
 
         await newMessage.save();
+        await this.liquidityPairModel.updateOne({ _id: payload.liquidityPairId }, { $inc: { comments: 1 } });
 
         // Populate children if this is a parent message
         const populatedMessage = await newMessage.populate([
@@ -82,8 +85,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 options: { strictPopulate: false }
             }
         ]);
-
-
 
         this.server.to(`pair-${payload.liquidityPairId}`).emit('newMessage', JSON.parse(JSON.stringify(populatedMessage)));
     }
