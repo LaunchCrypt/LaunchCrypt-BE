@@ -16,6 +16,7 @@ import { MoralisModule } from './moralis/moralis.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { StakeModule } from './stake/stake.module';
 import { StatsModule } from './stats/stats.module';
+import { ExTokenModule } from './ex-token/ex-token.module';
 
 
 @Module({
@@ -49,6 +50,7 @@ import { StatsModule } from './stats/stats.module';
     MoralisModule,
     StakeModule,
     StatsModule,
+    ExTokenModule,
   ],
 
   controllers: [AppController],

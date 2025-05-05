@@ -8,10 +8,10 @@ export class CreateTradingPairDto {
     creator: string;
 
     @IsNotEmpty()
-    tokenA: string;
+    tokenA: string; // address of the token contract
 
     @IsNotEmpty()
-    tokenB: string;
+    tokenB: string; // address of the token contract    
 
     @IsNotEmpty()
     tokenAReserve: string;
@@ -31,9 +31,6 @@ export class CreateTradingPairDto {
 
 
 export class UpdateTradingPairDto {
-    @IsOptional()
-    comments: number 
-
     @IsOptional()
     tokenAReserve: string;
 

@@ -14,20 +14,20 @@ export class LiquidityPairsService {
 
 
     async getAllLiquidityPairs(queryAllDto: QueryAllDto): Promise<any[]> {
-    const { page = 1, limit = 20, sortField, sortOrder = 'asc', keyword } = queryAllDto;
-    console.log(queryAllDto);
-    const skip = (page - 1) * limit;
-    const sort = sortField ? { [sortField]: sortOrder === 'asc' ? 1 : -1 } as { [key: string]: 1 | -1 } : {};
-    const filter = keyword ? { 'tokenA.symbol': { $regex: keyword, $options: 'i' } } : {};
+        const { page = 1, limit = 20, sortField, sortOrder = 'asc', keyword } = queryAllDto;
+        console.log(queryAllDto);
+        const skip = (page - 1) * limit;
+        const sort = sortField ? { [sortField]: sortOrder === 'asc' ? 1 : -1 } as { [key: string]: 1 | -1 } : {};
+        const filter = keyword ? { 'tokenA.symbol': { $regex: keyword, $options: 'i' } } : {};
 
-    // Fetch AVAX price (latest close price)
-    const avaxPrice = await this.getNativeTokenPrice('AVAXUSDT');
-    const pairs = await this.liquidityPairModel.find(filter).skip(skip).limit(limit).sort(sort).exec();
-    return pairs.map(pair => ({
-      ...pair.toObject(),
-      marketcap: Number(pair.tokenBReserve) * Number(avaxPrice)
-    }));
-  }
+        // Fetch AVAX price (latest close price)
+        const avaxPrice = await this.getNativeTokenPrice('AVAXUSDT');
+        const pairs = await this.liquidityPairModel.find(filter).skip(skip).limit(limit).sort(sort).exec();
+        return pairs.map(pair => ({
+            ...pair.toObject(),
+            marketcap: Number(pair.tokenBReserve) * Number(avaxPrice)
+        }));
+    }
 
     async getLiquidityPairByContractAddress(contractAddress: string): Promise<LiquidityPair> {
         const liquidityPair = await this.liquidityPairModel.findOne({ poolAddress: contractAddress }).exec();

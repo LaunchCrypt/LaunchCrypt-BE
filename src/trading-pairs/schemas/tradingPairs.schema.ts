@@ -1,6 +1,6 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Token, TokenSchema } from 'src/token/schemas/token.schema';
+import { ExTokenSchema, ExToken } from 'src/ex-token/schemas/ex-token.schema';
 
 // export type MskProblemDocument = HydratedDocument<MskProblem>;
 
@@ -22,11 +22,11 @@ export class TradingPair {
     creator: string;
 
     // tokenA is new token create in the platform
-    @Prop({ required: true, type: TokenSchema })
-    tokenA: Token;
+    @Prop({ required: true, type: ExTokenSchema })
+    tokenA: ExToken;
 
-    @Prop({ required: true, type: TokenSchema })
-    tokenB: Token;
+    @Prop({ required: true, type: ExTokenSchema })
+    tokenB: ExToken;
 
     @Prop({ required: true })
     tokenAReserve: string;

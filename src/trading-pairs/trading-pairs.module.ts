@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TradingPair, TradingPairSchema } from "./schemas/tradingPairs.schema"
 import { Token } from '@uniswap/sdk-core';
 import { TokenSchema } from 'src/token/schemas/token.schema';
-import { TokenModule } from 'src/token/token.module';
+import { ExTokenModule } from 'src/ex-token/ex-token.module';
 
 @Module({
   imports: [MongooseModule.forFeature(
@@ -13,7 +13,7 @@ import { TokenModule } from 'src/token/token.module';
     { name: TradingPair.name, schema: TradingPairSchema },
     { name: Token.name, schema: TokenSchema }
   ]),
-  TokenModule
+  ExTokenModule
 ],
   controllers: [TradingPairsController],
   providers: [TradingPairsService],

@@ -10,7 +10,7 @@ export class TradingPairsController {
      ) {}
 
     @Get()
-    getAllTradingPairs(queryAllDto: QueryAllDto) {
+    getAllTradingPairs(@Query() queryAllDto: QueryAllDto) {
         return this.tradingPairService.getAllTradingPairs(queryAllDto);
     }
 
@@ -35,8 +35,8 @@ export class TradingPairsController {
     }
 
     @Patch(':contract')
-    updateTradingPair(@Param('contract') contractAddress: string, @Body() updateTradingPairDto: UpdateTradingPairDto) {
-        return this.tradingPairService.updateTradingPair(contractAddress, updateTradingPairDto);
+    updateTradingPairReserve(@Param('contract') contractAddress: string, @Body() updateTradingPairDto: UpdateTradingPairDto) {
+        return this.tradingPairService.updateTradingPairReserve(contractAddress, updateTradingPairDto);
     }
 }
 

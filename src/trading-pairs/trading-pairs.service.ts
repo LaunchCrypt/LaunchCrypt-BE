@@ -7,21 +7,24 @@ import { CreateTradingPairDto, UpdateTradingPairDto } from './dto/createTradingP
 import { ethers } from 'ethers';
 import { erc20Abi } from 'src/abi/ethereum/erc20ABI';
 import { FUJI_PROVIDER } from '../../constants';
-import { TokenService } from 'src/token/token.service';
+import { ExTokenService } from 'src/ex-token/ex-token.service';
 
 @Injectable()
 export class TradingPairsService {
     constructor(
         @InjectModel(TradingPair.name) private tradingPairModel: Model<TradingPair>,
-        private tokenService: TokenService
+        private exTokenService: ExTokenService
     ) { }
 
     async getAllTradingPairs(queryAllDto: QueryAllDto): Promise<TradingPair[]> {
-        const { page = 1, limit = 20, sortField, sortOrder = 'asc' } = queryAllDto;
+        const { page = 1, limit = 20, sortField, sortOrder = 'asc', keyword } = queryAllDto;
         const skip = (page - 1) * limit;
         const sort = sortField ? { [sortField]: sortOrder === 'asc' ? 1 : -1 } as { [key: string]: 1 | -1 } : {};
+        // filter both tokenA and tokenB
+        const filter = keyword ? { $or: [{ 'tokenA.symbol': { $regex: keyword, $options: 'i' } }, { 'tokenB.symbol': { $regex: keyword, $options: 'i' } }] } : {};
 
-        return await this.tradingPairModel.find().skip(skip).limit(limit).sort(sort).exec();
+
+        return await this.tradingPairModel.find(filter).skip(skip).limit(limit).sort(sort).exec();
     }
 
     async getTradingPairsByToken(tokenA: string): Promise<TradingPair[]> {
@@ -59,22 +62,37 @@ export class TradingPairsService {
     }
 
     async createTradingPair(createTradingPairDto: CreateTradingPairDto): Promise<TradingPair> {
+        console.log(createTradingPairDto)
         const { tokenA, tokenB } = createTradingPairDto;
         const {name: tokenAName, symbol: tokenASymbol} = await this.getOnchainTokenData(tokenA);
         const {name: tokenBName, symbol: tokenBSymbol} = await this.getOnchainTokenData(tokenB);
+        const tokenAExToken = await this.exTokenService.createExToken({
+            name: tokenAName,
+            symbol: tokenASymbol,
+            contractAddress: tokenA
+        });
+        const tokenBExToken = await this.exTokenService.createExToken({
+            name: tokenBName,
+            symbol: tokenBSymbol,
+            contractAddress: tokenB
+        });
 
-        // await this.tokenService.createToken({
-        //     name: tokenAName,
-        //     symbol: tokenASymbol,
-        //     contractAddress: tokenA,
-        //     chainId: createTradingPairDto.chainId
-        // });
-
-        const createdTradingPair = new this.tradingPairModel(createTradingPairDto);
+        const createdTradingPair = new this.tradingPairModel(
+            {
+                creator: createTradingPairDto.creator,
+                tokenA: tokenAExToken,
+                tokenB: tokenBExToken,
+                tokenAReserve: createTradingPairDto.tokenAReserve,
+                tokenBReserve: createTradingPairDto.tokenBReserve,
+                chainId: createTradingPairDto.chainId,
+                poolAddress: createTradingPairDto.poolAddress,
+                totalLP: createTradingPairDto.totalLP
+            }
+        );
         return createdTradingPair.save();
     }
 
-    async updateTradingPair(contractAddress: string, UpdateTradingPairDto: UpdateTradingPairDto): Promise<TradingPair> {
+    async updateTradingPairReserve(contractAddress: string, UpdateTradingPairDto: UpdateTradingPairDto): Promise<TradingPair> {
         const updatedTradingPair = await this.tradingPairModel.findOneAndUpdate(
             { poolAddress: contractAddress },
             UpdateTradingPairDto,
