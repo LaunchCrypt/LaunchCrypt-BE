@@ -20,7 +20,7 @@ export class TradingPairsController {
     }
 
     @Get('contract')
-    getTradingPairsByContract(@Query('address') contractAddress: string) {
+    getTradingPairsByContract(@Query('contractAddress') contractAddress: string) {
         return this.tradingPairService.getTradingPairsByContract(contractAddress);
     }
 

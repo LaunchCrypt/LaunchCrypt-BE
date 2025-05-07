@@ -48,22 +48,25 @@ export class TradingPairsService {
             ]
         }).exec();
         if (!tradingPair) {
-            throw new NotFoundException('Liquidity Pair not found');
+            throw new NotFoundException('Trading Pair not found');
         }
         return tradingPair;
     }
 
     async getTradingPairsByContract(contractAddress: string): Promise<TradingPair> {
+        console.log(contractAddress)
         const tradingPair = await this.tradingPairModel.findOne({ poolAddress: contractAddress }).exec();
         if (!tradingPair) {
-            throw new NotFoundException('Liquidity Pair not found');
+            throw new NotFoundException('Trading Pair not found');
         }
         return tradingPair;
     }
 
     async createTradingPair(createTradingPairDto: CreateTradingPairDto): Promise<TradingPair> {
         console.log(createTradingPairDto)
-        const { tokenA, tokenB } = createTradingPairDto;
+        let { tokenA, tokenB } = createTradingPairDto;
+        tokenA = this.compareSolidityAddresses(tokenA, tokenB) ? tokenA : tokenB;
+        tokenB = this.compareSolidityAddresses(tokenA, tokenB) ? tokenB : tokenA;
         const {name: tokenAName, symbol: tokenASymbol} = await this.getOnchainTokenData(tokenA);
         const {name: tokenBName, symbol: tokenBSymbol} = await this.getOnchainTokenData(tokenB);
         const tokenAExToken = await this.exTokenService.createExToken({
@@ -110,4 +113,22 @@ export class TradingPairsService {
         const symbol = await tokenContract.symbol();
         return { name, symbol };
     }
+
+    async compareSolidityAddresses(addressA: string, addressB: string) {
+        // Loại bỏ tiền tố "0x" nếu có
+        const cleanAddressA = addressA.toLowerCase().startsWith('0x') 
+          ? addressA.slice(2).toLowerCase() 
+          : addressA.toLowerCase();
+        
+        const cleanAddressB = addressB.toLowerCase().startsWith('0x') 
+          ? addressB.slice(2).toLowerCase() 
+          : addressB.toLowerCase();
+        
+        // Chuyển đổi địa chỉ hex thành BigInt để so sánh chính xác
+        const bigIntA = BigInt('0x' + cleanAddressA);
+        const bigIntB = BigInt('0x' + cleanAddressB);
+        
+        // So sánh giá trị số giống như trong Solidity
+        return bigIntA < bigIntB;
+      }
 }
