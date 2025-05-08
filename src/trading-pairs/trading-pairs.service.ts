@@ -96,9 +96,17 @@ export class TradingPairsService {
     }
 
     async updateTradingPairReserve(contractAddress: string, UpdateTradingPairDto: UpdateTradingPairDto): Promise<TradingPair> {
+        // get total supply from contract address
+        const newTotalLP = await this.getTotalSupply(contractAddress);
+        const reserveA = await this.getReserve(contractAddress, UpdateTradingPairDto.tokenAAddress);
+        const reserveB = await this.getReserve(contractAddress, UpdateTradingPairDto.tokenBAddress);
         const updatedTradingPair = await this.tradingPairModel.findOneAndUpdate(
             { poolAddress: contractAddress },
-            UpdateTradingPairDto,
+            {
+                tokenAReserve: reserveA,
+                tokenBReserve: reserveB,
+                totalLP: newTotalLP
+            },
             { new: true })
             .exec();
         if (!updatedTradingPair) {
@@ -131,4 +139,16 @@ export class TradingPairsService {
         // So sánh giá trị số giống như trong Solidity
         return bigIntA < bigIntB;
       }
+
+      async getTotalSupply(contractAddress: string) {
+        const tokenContract = new ethers.Contract(contractAddress, erc20Abi, FUJI_PROVIDER);
+        const totalSupply = await tokenContract.totalSupply();
+        return totalSupply;
+    }
+
+    async getReserve(contractAddress: string, tokenAddress: string) {
+        const tokenContract = new ethers.Contract(tokenAddress, erc20Abi, FUJI_PROVIDER);
+        const reserve = await tokenContract.balanceOf(contractAddress);
+        return reserve;
+    }
 }

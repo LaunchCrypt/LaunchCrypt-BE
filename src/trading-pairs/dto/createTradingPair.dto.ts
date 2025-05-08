@@ -32,8 +32,8 @@ export class CreateTradingPairDto {
 
 export class UpdateTradingPairDto {
     @IsOptional()
-    tokenAReserve: string;
+    tokenAAddress: string;
 
     @IsOptional()
-    tokenBReserve: string;
+    tokenBAddress: string;
 }
