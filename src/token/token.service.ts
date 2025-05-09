@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import axios from 'axios';
 import { FUJI_CHAIN_ID, TOKEN_FACTORY_ADDRESS } from '../../constants';
 import { dateFormatter, getContract } from 'src/utils/utils';
@@ -10,12 +10,17 @@ import { Token } from './schemas/token.schema';
 import { Model } from 'mongoose';
 import { LiquidityPairsService } from 'src/liquidity-pairs/liquidity-pairs.service';
 import { QueryAllDto } from 'src/common/dto/queryAll.dto';
-
+import { User } from 'src/user/schemas/user.schema';
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class TokenService {
     constructor(
         @InjectModel(Token.name) private tokenModel: Model<Token>,
-        private liquidityPairsService: LiquidityPairsService) { }
+        private liquidityPairsService: LiquidityPairsService,
+        @Inject(forwardRef(() => UserService))
+        private userService: UserService
+    ) { }
+
     private readonly binanceKlinesApiUrl = 'https://api.binance.com/api/v3/klines'
     private tokenFactoryContract = getContract(
         TOKEN_FACTORY_ADDRESS,
@@ -41,6 +46,24 @@ export class TokenService {
             return { name: "", symbol: "", image: "" }
         }
         return token;
+    }
+
+    async getTokenDistribution(contractAddress: string) {
+        console.log("contractAddress", contractAddress)
+        let distribution = []
+        const users = await this.userService.getAll({})
+        for (const user of users) {
+            const balance = await this.userService.getWalletTokens(user.publicKey, FUJI_CHAIN_ID.toString())
+            for (const token of balance) {
+                if (token.contractAddress.toLowerCase() == contractAddress.toLowerCase()) {
+                    distribution.push({
+                        address: user.publicKey,
+                        balance: token.balance
+                    })
+                }
+            }
+        }
+        return distribution;
     }
 
     async getNativeTokenPriceHistory(symbol: string, interval: string, limit: number, type: "dayMonth" | "time") {

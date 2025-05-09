@@ -21,6 +21,17 @@ export class TokenController {
         return { tokenPriceHistory };
     }
 
+    @Get()
+    getAllTokens(@Query() queryAllDto: QueryAllDto) {
+        return this.tokenService.getAllTokens(queryAllDto);
+    }
+
+
+    @Get('/token-distribution')
+    getTokenDistribution(@Query('tokenAddress') tokenAddress: string) {
+        return this.tokenService.getTokenDistribution(tokenAddress);
+    }
+
     @Get(':contractAddress')
     getTokenByContractAddress(@Query('contractAddress') contractAddress: string) {
         return this.tokenService.getTokenByContractAddress(contractAddress);
@@ -36,10 +47,5 @@ export class TokenController {
             ...tokenData,
             image
         });
-    }
-
-    @Get()
-    getAllTokens(@Query() queryAllDto: QueryAllDto) {
-        return this.tokenService.getAllTokens(queryAllDto);
     }
 }

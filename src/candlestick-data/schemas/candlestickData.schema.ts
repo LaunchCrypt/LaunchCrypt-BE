@@ -27,16 +27,16 @@ export class CandlestickData {
     time: number
 
     @Prop()
-    openPrice: string;
+    openPrice: number;
 
     @Prop()
-    closePrice: string;
+    closePrice: number;
 
     @Prop()
-    highPrice: string;
+    highPrice: number;
 
     @Prop()
-    lowPrice: string;
+    lowPrice: number;
 
     @Prop()
     volume: string;

@@ -1,5 +1,5 @@
 import { TokenService } from './../token/token.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
@@ -14,6 +14,7 @@ import { ethers } from 'ethers';
 export class UserService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @Inject(forwardRef(() => TokenService))
         private tokenService: TokenService
     ) { }
 

@@ -40,10 +40,10 @@ export class CandlestickWorkerService {
         }
     }
 
-    @Cron('45 * * * * *')
-    handleCron() {
-        this.logger.debug('Called when the current second is 45');
-    }
+    // @Cron('45 * * * * *')
+    // handleCron() {
+    //     this.logger.debug('Called when the current second is 45');
+    // }
 
     private async generateCandlestickData(
         liquidityPairId: Types.ObjectId,

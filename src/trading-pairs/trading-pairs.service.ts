@@ -65,10 +65,9 @@ export class TradingPairsService {
     async createTradingPair(createTradingPairDto: CreateTradingPairDto): Promise<TradingPair> {
         console.log(createTradingPairDto)
         let { tokenA, tokenB } = createTradingPairDto;
-        tokenA = this.compareSolidityAddresses(tokenA, tokenB) ? tokenA : tokenB;
-        tokenB = this.compareSolidityAddresses(tokenA, tokenB) ? tokenB : tokenA;
-        const {name: tokenAName, symbol: tokenASymbol} = await this.getOnchainTokenData(tokenA);
-        const {name: tokenBName, symbol: tokenBSymbol} = await this.getOnchainTokenData(tokenB);
+        const {baseToken, quoteToken} = await this.sortTokenAddresses(tokenA, tokenB);
+        const {name: tokenAName, symbol: tokenASymbol} = await this.getOnchainTokenData(baseToken);
+        const {name: tokenBName, symbol: tokenBSymbol} = await this.getOnchainTokenData(quoteToken);
         const tokenAExToken = await this.exTokenService.createExToken({
             name: tokenAName,
             symbol: tokenASymbol,
@@ -122,25 +121,20 @@ export class TradingPairsService {
         return { name, symbol };
     }
 
-    async compareSolidityAddresses(addressA: string, addressB: string) {
-        // Loại bỏ tiền tố "0x" nếu có
-        const cleanAddressA = addressA.toLowerCase().startsWith('0x') 
-          ? addressA.slice(2).toLowerCase() 
-          : addressA.toLowerCase();
+    async sortTokenAddresses(tokenA: string, tokenB: string) {
+        // Convert addresses to BigInt for proper comparison of large hexadecimal values
+        const addressA = BigInt(tokenA);
+        const addressB = BigInt(tokenB);
         
-        const cleanAddressB = addressB.toLowerCase().startsWith('0x') 
-          ? addressB.slice(2).toLowerCase() 
-          : addressB.toLowerCase();
-        
-        // Chuyển đổi địa chỉ hex thành BigInt để so sánh chính xác
-        const bigIntA = BigInt('0x' + cleanAddressA);
-        const bigIntB = BigInt('0x' + cleanAddressB);
-        
-        // So sánh giá trị số giống như trong Solidity
-        return bigIntA < bigIntB;
+        // Compare and return in sorted order
+        if (addressA < addressB) {
+          return { baseToken: tokenA, quoteToken: tokenB };
+        } else {
+          return { baseToken: tokenB, quoteToken: tokenA };
+        }
       }
 
-      async getTotalSupply(contractAddress: string) {
+    async getTotalSupply(contractAddress: string) {
         const tokenContract = new ethers.Contract(contractAddress, erc20Abi, FUJI_PROVIDER);
         const totalSupply = await tokenContract.totalSupply();
         return totalSupply;
