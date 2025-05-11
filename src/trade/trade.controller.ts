@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { TradeService } from './trade.service';
-import { QueryAllDto } from '@/common/dto/queryAll.dto';
+import { QueryAllDto } from '../common/dto/queryAll.dto';
 import { CreateTradeDto } from './dto/trade.dto';
 
 @Controller('trade')

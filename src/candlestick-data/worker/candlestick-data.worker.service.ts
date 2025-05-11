@@ -3,8 +3,8 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { CandlestickData } from "../schemas/candlestickData.schema";
-import { LiquidityPair } from '@/liquidity-pairs/schemas/liquidityPairs.schema';
-import { Trade } from '@/trade/schemas/trade.schema';
+import { LiquidityPair } from '../../liquidity-pairs/schemas/liquidityPairs.schema';
+import { Trade } from '../../trade/schemas/trade.schema';
 import { DEFAULT_PRICE } from "../../../constants";
 
 @Injectable()

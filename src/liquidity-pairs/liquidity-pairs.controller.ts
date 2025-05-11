@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { LiquidityPairsService } from './liquidity-pairs.service';
 import { CreateLiquidityPairDto, UpdateLiquidityPairDto } from './dto/createLiquidityPair.dto';
-import { QueryAllDto } from '@/common/dto/queryAll.dto';
+import { QueryAllDto } from '../common/dto/queryAll.dto';
 
 @Controller('liquidity-pairs')
 export class LiquidityPairsController {

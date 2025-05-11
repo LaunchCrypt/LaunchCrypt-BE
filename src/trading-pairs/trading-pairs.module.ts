@@ -4,8 +4,8 @@ import { TradingPairsService } from './trading-pairs.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TradingPair, TradingPairSchema } from "./schemas/tradingPairs.schema"
 import { Token } from '@uniswap/sdk-core';
-import { TokenSchema } from '@/token/schemas/token.schema';
-import { ExTokenModule } from '@/ex-token/ex-token.module';
+import { TokenSchema } from '../token/schemas/token.schema';
+import { ExTokenModule } from '../ex-token/ex-token.module';
 
 @Module({
   imports: [MongooseModule.forFeature(

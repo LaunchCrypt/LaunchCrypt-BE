@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ExToken, ExTokenDocument } from './schemas/ex-token.schema';
 import { Model } from 'mongoose';
-import { QueryAllDto } from '@/common/dto/queryAll.dto';
+import { QueryAllDto } from '../common/dto/queryAll.dto';
 import { CreateExTokenDto } from './dto/createExToken.dto';
     
 @Injectable()

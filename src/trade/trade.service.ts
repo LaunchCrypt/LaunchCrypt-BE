@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Trade } from './schemas/trade.schema';
 import { Model } from 'mongoose';
-import { QueryAllDto } from '@/common/dto/queryAll.dto';
+import { QueryAllDto } from '../common/dto/queryAll.dto';
 import { CreateTradeDto } from './dto/trade.dto';
 import { TradeGateway } from './gateway/trade.gateway';
-import { UserService } from '@/user/user.service';
+import { UserService } from '../user/user.service';
 import axios from 'axios';
 
 @Injectable()
