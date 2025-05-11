@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ValidateNested } from 'class-validator';
 import mongoose from 'mongoose';
-import { Token } from 'src/token/schemas/token.schema';
+import { Token } from '@/token/schemas/token.schema';
 
 
 export type UserDocument = User & Document;

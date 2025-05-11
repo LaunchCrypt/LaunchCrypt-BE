@@ -3,11 +3,11 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { QueryAllDto } from 'src/common/dto/queryAll.dto';
+import { QueryAllDto } from '@/common/dto/queryAll.dto';
 import { UpdateUserDto } from './dto/createUser.dto';
-import { CustomError } from 'src/error/customError';
+import { CustomError } from '@/error/customError';
 import { Alchemy } from 'alchemy-sdk'
-import { alchemyFujiConfig } from 'src/config/alchemy.config';
+import { alchemyFujiConfig } from '@/config/alchemy.config';
 import { ethers } from 'ethers';
 
 @Injectable()

@@ -4,8 +4,8 @@ import { TokenService } from './token.service';
 import { TokenGateway } from './gateway/token-gateway';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Token, TokenSchema } from './schemas/token.schema';
-import { LiquidityPairsModule } from 'src/liquidity-pairs/liquidity-pairs.module';
-import { UserModule } from 'src/user/user.module';
+import { LiquidityPairsModule } from '@/liquidity-pairs/liquidity-pairs.module';
+import { UserModule } from '@/user/user.module';
 
 @Module({ 
   controllers: [TokenController],

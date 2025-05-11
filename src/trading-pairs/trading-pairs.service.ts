@@ -1,13 +1,13 @@
-import { QueryAllDto } from 'src/common/dto/queryAll.dto';
+import { QueryAllDto } from '@/common/dto/queryAll.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TradingPair } from './schemas/tradingPairs.schema';
 import { Model } from 'mongoose';
 import { CreateTradingPairDto, UpdateTradingPairDto } from './dto/createTradingPair.dto';
 import { ethers } from 'ethers';
-import { erc20Abi } from 'src/abi/ethereum/erc20ABI';
+import { erc20Abi } from '@/abi/ethereum/erc20ABI';
 import { FUJI_PROVIDER } from '../../constants';
-import { ExTokenService } from 'src/ex-token/ex-token.service';
+import { ExTokenService } from '@/ex-token/ex-token.service';
 
 @Injectable()
 export class TradingPairsService {

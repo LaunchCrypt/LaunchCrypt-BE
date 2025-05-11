@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { LiquidityPair } from './schemas/liquidityPairs.schema';
 import { Model } from 'mongoose';
-import { QueryAllDto } from 'src/common/dto/queryAll.dto';
+import { QueryAllDto } from '@/common/dto/queryAll.dto';
 import { CreateLiquidityPairDto, UpdateLiquidityPairDto } from './dto/createLiquidityPair.dto';
 
 @Injectable()   

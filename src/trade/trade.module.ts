@@ -4,7 +4,7 @@ import { TradeController } from './trade.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Trade, TradeSchema } from './schemas/trade.schema';
 import { TradeGateway } from './gateway/trade.gateway';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '@/user/user.module';
 
 @Module({
   imports: [MongooseModule.forFeature(

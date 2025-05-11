@@ -4,8 +4,8 @@ import { CandlestickDataService } from './candlestick-data.service';
 import { CandlestickWorkerService } from './worker/candlestick-data.worker.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CandlestickData, CandlestickDataSchema } from './schemas/candlestickData.schema';
-import { LiquidityPair, LiquidityPairSchema } from 'src/liquidity-pairs/schemas/liquidityPairs.schema';
-import { Trade, TradeSchema } from 'src/trade/schemas/trade.schema';
+import { LiquidityPair, LiquidityPairSchema } from '../liquidity-pairs/schemas/liquidityPairs.schema';
+import { Trade, TradeSchema } from '../trade/schemas/trade.schema';
 
 @Module({
   imports: [

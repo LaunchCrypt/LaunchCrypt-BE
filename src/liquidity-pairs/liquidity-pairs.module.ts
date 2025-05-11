@@ -3,8 +3,8 @@ import { LiquidityPairsService } from './liquidity-pairs.service';
 import { LiquidityPairsController } from './liquidity-pairs.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LiquidityPair, LiquidityPairSchema } from './schemas/liquidityPairs.schema';
-import { Token, TokenSchema } from 'src/token/schemas/token.schema';
-import { TokenModule } from 'src/token/token.module';
+import { Token, TokenSchema } from '@/token/schemas/token.schema';
+import { TokenModule } from '@/token/token.module';
 
 /**
  * This is module for trading pairs (new token) & native token (support virtual liquidity)

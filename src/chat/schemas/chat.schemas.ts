@@ -1,6 +1,6 @@
 import {Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { LiquidityPair } from 'src/liquidity-pairs/schemas/liquidityPairs.schema';
+import { LiquidityPair } from '@/liquidity-pairs/schemas/liquidityPairs.schema';
 @Schema(
     {
         timestamps: true,

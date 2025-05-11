@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
 import { ExTokenService } from './ex-token.service';
-import { QueryAllDto } from 'src/common/dto/queryAll.dto';
+import { QueryAllDto } from '@/common/dto/queryAll.dto';
 import { CreateExTokenDto } from './dto/createExToken.dto';
 
 @Controller('ex-token')

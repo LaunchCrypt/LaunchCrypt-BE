@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './schemas/user.schema';
-import { QueryAllDto } from 'src/common/dto/queryAll.dto';
+import { QueryAllDto } from '@/common/dto/queryAll.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './dto/createUser.dto';
 

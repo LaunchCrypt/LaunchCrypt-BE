@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { TradeService } from 'src/trade/trade.service';
-import { UserService } from 'src/user/user.service';
-import { StakeService } from 'src/stake/stake.service';
+import { TradeService } from '@/trade/trade.service';
+import { UserService } from '@/user/user.service';
+import { StakeService } from '@/stake/stake.service';
 import axios from 'axios';
 
 @Injectable()

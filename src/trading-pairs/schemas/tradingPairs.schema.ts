@@ -1,6 +1,6 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ExTokenSchema, ExToken } from 'src/ex-token/schemas/ex-token.schema';
+import { ExTokenSchema, ExToken } from '@/ex-token/schemas/ex-token.schema';
 
 // export type MskProblemDocument = HydratedDocument<MskProblem>;
 

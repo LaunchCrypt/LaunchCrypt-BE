@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Token, TokenSchema } from 'src/token/schemas/token.schema';
+import { Token, TokenSchema } from '@/token/schemas/token.schema';
 
 @Schema(
     {

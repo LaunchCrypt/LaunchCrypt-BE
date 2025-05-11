@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Query, UploadedFile, UseInterceptor
 import { TokenService } from './token.service';
 import { TokenPriceHistoryDto } from './dto/tokenPriceHistory.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { QueryAllDto } from 'src/common/dto/queryAll.dto';
+import { QueryAllDto } from '@/common/dto/queryAll.dto';
 
 @Controller('token')
 export class TokenController {
