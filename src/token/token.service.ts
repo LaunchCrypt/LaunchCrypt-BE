@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import axios from 'axios';
 import { FUJI_CHAIN_ID, TOKEN_FACTORY_ADDRESS } from '../../constants';
-import { dateFormatter, getContract } from 'src/utils/utils';
+import { dateFormatter, getContract } from '../utils/utils';
 import { TOKEN_FACTORY_ABI } from 'src/abi/ethereum/token_factory_abi';
 import { CreateTokenDto } from './dto/createToken.dto';
 import { ethers } from 'ethers';

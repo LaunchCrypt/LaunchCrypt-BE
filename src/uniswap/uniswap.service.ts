@@ -5,7 +5,7 @@ import { UNISWAP_FACTOR_ABI, UNISWAP_V3_POOL_ABI, ERC20_ABI } from "../abi/ether
 import JSBI from 'jsbi';
 import { Token, Percent } from '@uniswap/sdk-core';
 import { nearestUsableTick, NonfungiblePositionManager, Pool, Position } from '@uniswap/v3-sdk';
-import { getContract, Utils } from 'src/utils/utils';
+import { getContract, Utils } from "../utils/utils";
 
 @Injectable()
 export class UniswapService {
